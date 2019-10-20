@@ -26,5 +26,15 @@ namespace MVCMusicStore.Controllers
 			.Take(count)
 			.ToList();
 		}
+
+		public ActionResult Contact()
+		{
+			return View();
+		}
+
+		public ActionResult About()
+		{
+			return View();
+		}
 	}
 }
