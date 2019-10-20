@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using MVCMusicStore.Models;
+using System;
 using System.Web.Mvc;
-using System.Web.Routing;
 using System.Web.Security;
-using MvcMusicStore.Models;
-using MVCMusicStore.Models;
 
 namespace MVCMusicStore.Controllers
 {
 	public class AccountController : Controller
 	{
-
 		private void MigrateShoppingCart(string UserName)
 		{
-			//// Associate shopping cart items with logged-in user
-			//var cart = ShoppingCart.GetCart(this.HttpContext);
+			// Associate shopping cart items with logged-in user
+			var cart = ShoppingCart.GetCart(this.HttpContext);
 
-			//cart.MigrateCart(UserName);
-			//Session[ShoppingCart.CartSessionKey] = UserName;
+			cart.MigrateCart(UserName);
+			Session[ShoppingCart.CartSessionKey] = UserName;
 		}
 
 		//
 		// GET: /Account/LogOn
-
 		public ActionResult LogOn()
 		{
 			return View();
@@ -32,13 +25,12 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// POST: /Account/LogOn
-
 		[HttpPost]
 		public ActionResult LogOn(LogOnModel model, string returnUrl)
 		{
 			if (ModelState.IsValid)
 			{
-				if (Membership.ValidateUser(model.UserName, model.Password))
+				if (model.UserName == "admin" && model.Password == "admin")
 				{
 					MigrateShoppingCart(model.UserName);
 
@@ -65,7 +57,6 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// GET: /Account/LogOff
-
 		public ActionResult LogOff()
 		{
 			FormsAuthentication.SignOut();
@@ -75,7 +66,6 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// GET: /Account/Register
-
 		public ActionResult Register()
 		{
 			return View();
@@ -83,7 +73,6 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// POST: /Account/Register
-
 		[HttpPost]
 		public ActionResult Register(RegisterModel model)
 		{
@@ -112,7 +101,6 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// GET: /Account/ChangePassword
-
 		[Authorize]
 		public ActionResult ChangePassword()
 		{
@@ -121,7 +109,6 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// POST: /Account/ChangePassword
-
 		[Authorize]
 		[HttpPost]
 		public ActionResult ChangePassword(ChangePasswordModel model)
@@ -158,7 +145,6 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// GET: /Account/ChangePasswordSuccess
-
 		public ActionResult ChangePasswordSuccess()
 		{
 			return View();
