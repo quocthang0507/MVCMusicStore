@@ -7,6 +7,13 @@
 	<link href="~/Content/Site.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 	<script src="~/Scripts/modernizr-2.8.3.js"></script>
+	@{
+		string username = "";
+		if (Request.Cookies["UserCookies"] != null)
+		{
+			username = Request.Cookies["UserCookies"].Value;
+		}
+	}
 </head>
 <body>
 	<div id="header">
@@ -17,7 +24,24 @@
 			<li class="first"><a href="@Url.Content("~")" id="current">Home</a></li>
 			<li><a href="/Store/">Store</a></li>
 			<li>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
-			<li><a href="@Url.Content("~/StoreManager/")">Admin</a></li>
+			@if (username == "")
+			{
+				<li><a href="/Account/LogOn">Log On</a></li>
+			}
+			else if (username == "Administrator")
+			{
+				<li><a href="@Url.Content("~/StoreManager/")">Admin</a></li>
+				<li>
+					<a href="@Url.Content("~/Account/LogOff")">Log Out</a>
+				</li>
+			}
+			else
+			{
+				<li><a>Hi @username</a></li>
+				<li>
+					<a href="@Url.Content("~/Account/LogOff")">Log Out</a>
+				</li>
+			}
 		</ul>
 	</div>
 	@{Html.RenderAction("GenreMenu", "Store");}
@@ -25,7 +49,7 @@
 		@RenderBody()
 	</div>
 	<div id="footer">
-		built with <a href="http://asp.net/mvc">ASP.NET MVC 5 - La Quoc Thang</a>
+		built with <a href="https://dotnet.microsoft.com/apps/aspnet/mvc">ASP.NET MVC 5 - La Quoc Thang</a>
 	</div>
 </body>
 </html>

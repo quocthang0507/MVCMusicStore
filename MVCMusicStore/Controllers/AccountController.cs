@@ -1,5 +1,6 @@
 ﻿using MVCMusicStore.Models;
 using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -30,7 +31,7 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (model.UserName == "admin" && model.Password == "admin")
+				if (Membership.ValidateUser(model.UserName, model.Password))
 				{
 					MigrateShoppingCart(model.UserName);
 
@@ -38,10 +39,12 @@ namespace MVCMusicStore.Controllers
 					if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
 						&& !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
 					{
+						CreateCookie(model.UserName);
 						return Redirect(returnUrl);
 					}
 					else
 					{
+						CreateCookie(model.UserName);
 						return RedirectToAction("Index", "Home");
 					}
 				}
@@ -60,8 +63,27 @@ namespace MVCMusicStore.Controllers
 		public ActionResult LogOff()
 		{
 			FormsAuthentication.SignOut();
-
+			MakeCookieExpried("UserCookies");
 			return RedirectToAction("Index", "Home");
+		}
+
+		private void CreateCookie(string username)
+		{
+			var cookies = new HttpCookie("UserCookies");
+			cookies.Value = username;
+			cookies.Expires = DateTime.Now.AddHours(1);
+			Response.Cookies.Add(cookies);
+		}
+
+		private void MakeCookieExpried(string name)
+		{
+			if (Request.Cookies[name] != null)
+			{
+				var cookies = new HttpCookie(name);
+				cookies.Value = "";
+				cookies.Expires = DateTime.Now.AddDays(-1);
+				Response.Cookies.Add(cookies);
+			}
 		}
 
 		//

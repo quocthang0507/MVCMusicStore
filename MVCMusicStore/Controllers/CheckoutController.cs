@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MVCMusicStore.Controllers
 {
-	//[Authorize]
+	[Authorize]
 	public class CheckoutController : Controller
 	{
 		MusicStoreEntities storeDB = new MusicStoreEntities();
