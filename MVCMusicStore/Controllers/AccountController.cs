@@ -72,7 +72,7 @@ namespace MVCMusicStore.Controllers
 		{
 			var cookies = new HttpCookie(CookieName);
 			cookies.Value = username;
-			cookies.Expires = DateTime.Now.AddHours(-1);
+			cookies.Expires = DateTime.Now.AddHours(1);
 			Response.Cookies.Add(cookies);
 		}
 

@@ -44,14 +44,10 @@
 		$('#cart-status').text('Cart (' + data.CartCount + ')');
 	}
 </script>
-<h3>
-	<em>Review</em> your cart:
-</h3>
-<p class="button">
-	@Html.ActionLink("Checkout >>", "AddressAndPayment", "Checkout")
-</p>
-<div id="update-message">
-</div>
+
+<h3><em>Review</em> your cart:</h3>
+<p class="button">@Html.ActionLink("Checkout >>", "AddressAndPayment", "Checkout")</p>
+<div id="update-message"></div>
 <table>
 	<tr>
 		<th>
@@ -82,7 +78,8 @@
 				@item.Count
 			</td>
 			<td>
-				<a href="#" class="RemoveLink" data-id="@item.RecordId">Remove from cart
+				<a href="#" class="RemoveLink" data-id="@item.RecordId">
+					Remove from cart
 				</a>
 			</td>
 		</tr>
