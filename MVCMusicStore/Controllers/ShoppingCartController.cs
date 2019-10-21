@@ -7,7 +7,7 @@ namespace MVCMusicStore.Controllers
 {
 	public class ShoppingCartController : Controller
 	{
-		MusicStoreEntities storeDB = new MusicStoreEntities();
+		private MusicStoreEntities storeDB = new MusicStoreEntities();
 
 		// GET: ShoppingCart
 		public ActionResult Index()
@@ -50,7 +50,7 @@ namespace MVCMusicStore.Controllers
 			// Display the confirmation message
 			var results = new ShoppingCartRemoveViewModel
 			{
-				Message = Server.HtmlEncode(albumName) + " has been removed from your shopping cart.",
+				Message = Server.HtmlEncode(albumName) + " đã được gỡ bỏ thành công ra khỏi giỏ hàng của bạn",
 				CartTotal = cart.GetTotal(),
 				CartCount = cart.GetCount(),
 				ItemCount = itemCount,

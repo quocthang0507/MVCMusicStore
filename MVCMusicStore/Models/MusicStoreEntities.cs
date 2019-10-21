@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace MVCMusicStore.Models
 {
+	/// <summary>
+	/// MusicStoreEntities
+	/// </summary>
 	public class MusicStoreEntities : DbContext
 	{
 		public DbSet<Album> Albums { get; set; }

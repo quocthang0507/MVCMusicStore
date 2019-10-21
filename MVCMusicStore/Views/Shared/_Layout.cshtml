@@ -5,8 +5,8 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 	<link href="~/Content/Site.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 	<script src="~/Scripts/modernizr-2.8.3.js"></script>
 	@{
@@ -18,44 +18,48 @@
 	}
 </head>
 <body class="container-fluid d-flex flex-column h-100 align-items-center px-0">
-	<div class="row grow w-100">
-		<nav class="col-12 py-3" id="header">
-			<h1>
-				<a href="@Url.Content("~")">CỬA HÀNG ÂM NHẠC</a>
-			</h1>
-			<ul id="navlist">
-				<li class="first"><a href="@Url.Content("~")" id="current">Trang chủ</a></li>
-				<li><a href="/Store/">Cửa hàng</a></li>
-				<li>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
-				@if (username == "")
-				{
-					<li><a href="/Account/LogOn">Đăng nhập</a></li>
-				}
-				else if (username == "Administrator")
-				{
-					<li><a href="@Url.Content("~/StoreManager/")">Trang quản trị</a></li>
-					<li>
-						<a href="@Url.Content("~/Account/LogOff")">Đăng xuất</a>
-					</li>
-				}
-				else
-				{
-					<li><a>Chào @username</a></li>
-					<li>
-						<a href="@Url.Content("~/Account/LogOff")">Đăng xuất</a>
-					</li>
-				}
-				<li><a href="/Home/Contact">Liên hệ</a></li>
-				<li><a href="/Home/About">Giới thiệu</a></li>
-			</ul>
+	<div class="row grow w-100 wrapper">
+		<nav class="navbar navbar-default" id="header">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<h1>
+						<a href="@Url.Content("~")" class="navbar-brand">CỬA HÀNG ÂM NHẠC</a>
+					</h1>
+				</div>
+				<ul id="navlist">
+					<li class="first"><a href="@Url.Content("~")" id="current">Trang chủ</a></li>
+					<li><a href="/Store/">Cửa hàng</a></li>
+					<li>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
+					@if (username == "")
+					{
+						<li><a href="/Account/LogOn">Đăng nhập</a></li>
+					}
+					else if (username == "Administrator")
+					{
+						<li><a href="@Url.Content("~/StoreManager/")">Trang quản trị</a></li>
+						<li>
+							<a href="@Url.Content("~/Account/LogOff")">Đăng xuất</a>
+						</li>
+					}
+					else
+					{
+						<li><a>Chào @username</a></li>
+						<li>
+							<a href="@Url.Content("~/Account/LogOff")">Đăng xuất</a>
+						</li>
+					}
+					<li><a href="/Home/Contact">Liên hệ</a></li>
+					<li><a href="/Home/About">Giới thiệu</a></li>
+				</ul>
+			</div>
 		</nav>
-		<nav id="col-4 bg-info py-3">
-			<div class="sidebar-header"><h3>Genre</h3></div>
+		<nav id="sidebar">
+			<div class="sidebar-header"><h5>Genre</h5></div>
 			<ul class="list-unstyled components">
 				@{Html.RenderAction("GenreMenu", "Store");}
 			</ul>
 		</nav>
-		<div id="main col-8 bg-warning h-100 py-3">
+		<div id="main col-8 bg-warning h-100 py-3 content">
 			@RenderBody()
 		</div>
 	</div>

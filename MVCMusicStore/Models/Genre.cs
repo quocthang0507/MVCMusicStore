@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace MVCMusicStore.Models
 {
+	/// <summary>
+	/// Thể loại
+	/// </summary>
 	public class Genre
 	{
 		public int GenreId { get; set; }

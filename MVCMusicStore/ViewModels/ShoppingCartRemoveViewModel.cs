@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace MVCMusicStore.ViewModels
+﻿namespace MVCMusicStore.ViewModels
 {
+	/// <summary>
+	/// Loại bỏ giỏ hàng
+	/// </summary>
 	public class ShoppingCartRemoveViewModel
 	{
 		public string Message { get; set; }

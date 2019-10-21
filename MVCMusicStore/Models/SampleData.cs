@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace MVCMusicStore.Models
 {
+	/// <summary>
+	/// Dữ liệu mẫu
+	/// </summary>
 	public class SampleData : DropCreateDatabaseIfModelChanges<MusicStoreEntities>
 	{
 		protected override void Seed(MusicStoreEntities context)

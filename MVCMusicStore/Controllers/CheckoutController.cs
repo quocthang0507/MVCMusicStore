@@ -1,8 +1,6 @@
 ﻿using MVCMusicStore.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MVCMusicStore.Controllers
@@ -10,8 +8,8 @@ namespace MVCMusicStore.Controllers
 	[Authorize]
 	public class CheckoutController : Controller
 	{
-		MusicStoreEntities storeDB = new MusicStoreEntities();
-		const string PromoCode = "FREE";
+		private MusicStoreEntities storeDB = new MusicStoreEntities();
+		private const string PromoCode = "FREE";
 
 		//
 		// GET: /Checkout/AddressAndPayment
@@ -29,11 +27,8 @@ namespace MVCMusicStore.Controllers
 			TryUpdateModel(order);
 			try
 			{
-				if (string.Equals(values["PromoCode"], PromoCode,
-				StringComparison.OrdinalIgnoreCase) == false)
-				{
+				if (string.Equals(values["PromoCode"], PromoCode, StringComparison.OrdinalIgnoreCase) == false)
 					return View(order);
-				}
 				else
 				{
 					order.Username = User.Identity.Name;
@@ -44,8 +39,7 @@ namespace MVCMusicStore.Controllers
 					//Process the order
 					var cart = ShoppingCart.GetCart(this.HttpContext);
 					cart.CreateOrder(order);
-					return RedirectToAction("Complete",
-					new { id = order.OrderId });
+					return RedirectToAction("Complete", new { id = order.OrderId });
 				}
 			}
 			catch
@@ -60,17 +54,11 @@ namespace MVCMusicStore.Controllers
 		public ActionResult Complete(int id)
 		{
 			// Validate customer owns this order
-			bool isValid = storeDB.Orders.Any(
-			o => o.OrderId == id &&
-			o.Username == User.Identity.Name);
+			bool isValid = storeDB.Orders.Any(o => o.OrderId == id && o.Username == User.Identity.Name);
 			if (isValid)
-			{
 				return View(id);
-			}
 			else
-			{
 				return View("Error");
-			}
 		}
 	}
 }

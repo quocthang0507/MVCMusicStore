@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace MVCMusicStore.Models
+﻿namespace MVCMusicStore.Models
 {
+	/// <summary>
+	/// Chi tiết đơn hàng
+	/// </summary>
 	public class OrderDetail
 	{
 		public int OrderDetailId { get; set; }

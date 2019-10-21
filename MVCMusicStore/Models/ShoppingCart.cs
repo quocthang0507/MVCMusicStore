@@ -6,12 +6,21 @@ using System.Web.Mvc;
 
 namespace MVCMusicStore.Models
 {
+	/// <summary>
+	/// Giỏ hàng
+	/// </summary>
 	public class ShoppingCart
 	{
-		MusicStoreEntities storeDB = new MusicStoreEntities();
-		string ShoppingCartId { get; set; }
+		private MusicStoreEntities storeDB = new MusicStoreEntities();
+		private string ShoppingCartId { get; set; }
+
 		public const string CartSessionKey = "CartId";
 
+		/// <summary>
+		/// Lấy giỏ hàng từ user
+		/// </summary>
+		/// <param name="context">HTTP Request</param>
+		/// <returns>Giỏ hàng</returns>
 		public static ShoppingCart GetCart(HttpContextBase context)
 		{
 			var cart = new ShoppingCart();
@@ -19,18 +28,24 @@ namespace MVCMusicStore.Models
 			return cart;
 		}
 
-		// Helper method to simplify shopping cart calls
+		/// <summary>
+		/// Helper method to simplify shopping cart calls
+		/// </summary>
+		/// <param name="controller"></param>
+		/// <returns></returns>
 		public static ShoppingCart GetCart(Controller controller)
 		{
 			return GetCart(controller.HttpContext);
 		}
 
+		/// <summary>
+		/// Thêm một album vào giỏ hàng
+		/// </summary>
+		/// <param name="album">Album cần thêm</param>
 		public void AddToCart(Album album)
 		{
 			// Get the matching cart and album instances
-			var cartItem = storeDB.Carts.SingleOrDefault(
-			c => c.CartId == ShoppingCartId
-			&& c.AlbumId == album.AlbumId);
+			var cartItem = storeDB.Carts.SingleOrDefault(c => c.CartId == ShoppingCartId && c.AlbumId == album.AlbumId);
 			if (cartItem == null)
 			{
 				// Create a new cart item if no cart item exists
@@ -52,6 +67,11 @@ namespace MVCMusicStore.Models
 			storeDB.SaveChanges();
 		}
 
+		/// <summary>
+		/// Bỏ một đơn hàng ra khỏi giỏ hàng
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public int RemoveFromCart(int id)
 		{
 			// Get the cart
@@ -76,6 +96,9 @@ namespace MVCMusicStore.Models
 			return itemCount;
 		}
 
+		/// <summary>
+		/// Làm trống giỏ hàng
+		/// </summary>
 		public void EmptyCart()
 		{
 			var cartItems = storeDB.Carts.Where(cart => cart.CartId == ShoppingCartId);
@@ -87,11 +110,19 @@ namespace MVCMusicStore.Models
 			storeDB.SaveChanges();
 		}
 
+		/// <summary>
+		/// Hiển thị danh sách các đơn hàng có trong giỏ hàng
+		/// </summary>
+		/// <returns></returns>
 		public List<Cart> GetCartItems()
 		{
 			return storeDB.Carts.Where(cart => cart.CartId == ShoppingCartId).ToList();
 		}
 
+		/// <summary>
+		/// Trả về số lượng giỏ hàng
+		/// </summary>
+		/// <returns>Số lượng</returns>
 		public int GetCount()
 		{
 			// Get the count of each item in the cart and sum them up
@@ -102,6 +133,10 @@ namespace MVCMusicStore.Models
 			return count ?? 0;
 		}
 
+		/// <summary>
+		/// Tính tổng tiền giỏ hàng
+		/// </summary>
+		/// <returns>Tổng tiền</returns>
 		public decimal GetTotal()
 		{
 			// Multiply album price by count of that album to get
@@ -113,6 +148,11 @@ namespace MVCMusicStore.Models
 			return total ?? decimal.Zero;
 		}
 
+		/// <summary>
+		/// Tạo một đơn hàng
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns>ID đơn hàng</returns>
 		public int CreateOrder(Order order)
 		{
 			decimal orderTotal = 0;
@@ -141,15 +181,17 @@ namespace MVCMusicStore.Models
 			return order.OrderId;
 		}
 
-		// We're using HttpContextBase to allow access to cookies.
+		/// <summary>
+		/// We're using HttpContextBase to allow access to cookies.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
 		public string GetCartId(HttpContextBase context)
 		{
 			if (context.Session[CartSessionKey] == null)
 			{
 				if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
-				{
 					context.Session[CartSessionKey] = context.User.Identity.Name;
-				}
 				else
 				{
 					// Generate a new random GUID using System.Guid class
@@ -161,15 +203,16 @@ namespace MVCMusicStore.Models
 			return context.Session[CartSessionKey].ToString();
 		}
 
-		// When a user has logged in, migrate their shopping cart to
-		// be associated with their username
+		/// <summary>
+		/// When a user has logged in, migrate their shopping cart to
+		/// be associated with their username
+		/// </summary>
+		/// <param name="userName"></param>
 		public void MigrateCart(string userName)
 		{
 			var shoppingCart = storeDB.Carts.Where(c => c.CartId == ShoppingCartId);
 			foreach (Cart item in shoppingCart)
-			{
 				item.CartId = userName;
-			}
 			storeDB.SaveChanges();
 		}
 	}

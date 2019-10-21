@@ -5,6 +5,9 @@ using System.Web.Mvc;
 
 namespace MVCMusicStore.Models
 {
+	/// <summary>
+	/// Album nhạc
+	/// </summary>
 	[Bind(Exclude = "AlbumId")]
 	public class Album
 	{

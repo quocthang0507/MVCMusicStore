@@ -8,11 +8,12 @@ namespace MVCMusicStore.Controllers
 {
 	public class AccountController : Controller
 	{
+		private string CookieName = "UserCookies";
+
 		private void MigrateShoppingCart(string UserName)
 		{
 			// Associate shopping cart items with logged-in user
 			var cart = ShoppingCart.GetCart(this.HttpContext);
-
 			cart.MigrateCart(UserName);
 			Session[ShoppingCart.CartSessionKey] = UserName;
 		}
@@ -36,8 +37,7 @@ namespace MVCMusicStore.Controllers
 					MigrateShoppingCart(model.UserName);
 
 					FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-					if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-						&& !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+					if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
 					{
 						CreateCookie(model.UserName);
 						return Redirect(returnUrl);
@@ -49,11 +49,8 @@ namespace MVCMusicStore.Controllers
 					}
 				}
 				else
-				{
-					ModelState.AddModelError("", "The user name or password provided is incorrect.");
-				}
+					ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu!");
 			}
-
 			// If we got this far, something failed, redisplay form
 			return View(model);
 		}
@@ -63,23 +60,30 @@ namespace MVCMusicStore.Controllers
 		public ActionResult LogOff()
 		{
 			FormsAuthentication.SignOut();
-			MakeCookieExpried("UserCookies");
+			MakeCookieExpried();
 			return RedirectToAction("Index", "Home");
 		}
 
+		/// <summary>
+		/// Tạo cookie lưu tên người dùng
+		/// </summary>
+		/// <param name="username">Tên người dùng</param>
 		private void CreateCookie(string username)
 		{
-			var cookies = new HttpCookie("UserCookies");
+			var cookies = new HttpCookie(CookieName);
 			cookies.Value = username;
-			cookies.Expires = DateTime.Now.AddHours(1);
+			cookies.Expires = DateTime.Now.AddHours(-1);
 			Response.Cookies.Add(cookies);
 		}
 
-		private void MakeCookieExpried(string name)
+		/// <summary>
+		/// Làm cookie hết hạn
+		/// </summary>
+		private void MakeCookieExpried()
 		{
-			if (Request.Cookies[name] != null)
+			if (Request.Cookies[CookieName] != null)
 			{
-				var cookies = new HttpCookie(name);
+				var cookies = new HttpCookie(CookieName);
 				cookies.Value = "";
 				cookies.Expires = DateTime.Now.AddDays(-1);
 				Response.Cookies.Add(cookies);
@@ -103,20 +107,15 @@ namespace MVCMusicStore.Controllers
 				// Attempt to register the user
 				MembershipCreateStatus createStatus;
 				Membership.CreateUser(model.UserName, model.Password, model.Email, "question", "answer", true, null, out createStatus);
-
 				if (createStatus == MembershipCreateStatus.Success)
 				{
 					MigrateShoppingCart(model.UserName);
-
 					FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
 					return RedirectToAction("Index", "Home");
 				}
 				else
-				{
 					ModelState.AddModelError("", ErrorCodeToString(createStatus));
-				}
 			}
-
 			// If we got this far, something failed, redisplay form
 			return View(model);
 		}
@@ -137,7 +136,6 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-
 				// ChangePassword will throw an exception rather
 				// than return false in certain failure scenarios.
 				bool changePasswordSucceeded;
@@ -150,15 +148,10 @@ namespace MVCMusicStore.Controllers
 				{
 					changePasswordSucceeded = false;
 				}
-
 				if (changePasswordSucceeded)
-				{
 					return RedirectToAction("ChangePasswordSuccess");
-				}
 				else
-				{
-					ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-				}
+					ModelState.AddModelError("", "Mật khẩu nhập lại không khớp hoặc không hợp lệ");
 			}
 
 			// If we got this far, something failed, redisplay form
@@ -180,34 +173,25 @@ namespace MVCMusicStore.Controllers
 			switch (createStatus)
 			{
 				case MembershipCreateStatus.DuplicateUserName:
-					return "User name already exists. Please enter a different user name.";
-
-				case MembershipCreateStatus.DuplicateEmail:
-					return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
-
-				case MembershipCreateStatus.InvalidPassword:
-					return "The password provided is invalid. Please enter a valid password value.";
-
-				case MembershipCreateStatus.InvalidEmail:
-					return "The e-mail address provided is invalid. Please check the value and try again.";
-
-				case MembershipCreateStatus.InvalidAnswer:
-					return "The password retrieval answer provided is invalid. Please check the value and try again.";
-
-				case MembershipCreateStatus.InvalidQuestion:
-					return "The password retrieval question provided is invalid. Please check the value and try again.";
-
+					return "Tên đăng nhập đã tồn tại trong hệ thống, vui lòng đổi sang tên khác";
 				case MembershipCreateStatus.InvalidUserName:
-					return "The user name provided is invalid. Please check the value and try again.";
-
+					return "Tên đăng nhập không hợp lệ, vui lòng sử dụng tên đăng nhập khác";
+				case MembershipCreateStatus.DuplicateEmail:
+					return "Email đã tồn tại trong hệ thống, vui lòng sử dụng email khác";
+				case MembershipCreateStatus.InvalidEmail:
+					return "Email không hợp lệ, vui lòng sử dụng email khác";
+				case MembershipCreateStatus.InvalidPassword:
+					return "Mật khẩu không hợp lệ, vui lòng sử dụng mật khẩu khác";
+				case MembershipCreateStatus.InvalidAnswer:
+					return "Câu trả lời không hợp lệ, vui lòng sử dụng câu trả lời khác";
+				case MembershipCreateStatus.InvalidQuestion:
+					return "Câu hỏi không hợp lệ, vui lòng sử dụng câu hỏi khác";
 				case MembershipCreateStatus.ProviderError:
-					return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
-
+					return "Lỗi chức thực, vui lòng thử lại. Nếu vẫn còn tiếp diễn, thì không biết phải làm sao!";
 				case MembershipCreateStatus.UserRejected:
-					return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
-
+					return "Yêu cầu từ người dùng bị từ chối, vui lòng thử lại. Nếu vẫn còn tiếp diễn, thì không biết phải làm sao!";
 				default:
-					return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+					return "Lỗi phát sinh không xác định. Nếu vẫn còn tiếp diễn, thì không biết phải làm sao!";
 			}
 		}
 		#endregion

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MVCMusicStore.Models
 {
+	/// <summary>
+	/// Giỏ hàng
+	/// </summary>
 	public class Cart
 	{
 		[Key]
