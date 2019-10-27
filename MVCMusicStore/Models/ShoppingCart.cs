@@ -75,9 +75,7 @@ namespace MVCMusicStore.Models
 		public int RemoveFromCart(int id)
 		{
 			// Get the cart
-			var cartItem = storeDB.Carts.Single(
-			cart => cart.CartId == ShoppingCartId
-			&& cart.RecordId == id);
+			var cartItem = storeDB.Carts.Single(cart => cart.CartId == ShoppingCartId && cart.RecordId == id);
 			int itemCount = 0;
 			if (cartItem != null)
 			{
