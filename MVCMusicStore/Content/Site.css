@@ -22,19 +22,6 @@ body {
 	margin-bottom: 10px;
 }
 
-	#header h1 {
-		font-size: 18px;
-		float: left;
-		background: url(/content/Images/logo.png) no-repeat;
-		padding: 45px 0px 5px 0px;
-	}
-
-#promotion {
-	height: 300px;
-	width: 700px;
-	background: url(/content/Images/home-showcase.png) no-repeat;
-}
-
 ul li a {
 	font-size: 16px;
 }
@@ -82,21 +69,6 @@ ul {
 	color: #F6855E;
 	font-weight: bold;
 }
-
-.button, input[type=submit] {
-	clear: both;
-	display: inline-block;
-	padding: 5px;
-	margin-top: 10px;
-	border: 1px;
-	background: #5e5b54;
-	color: #fff;
-	font-weight: bold;
-}
-
-	.button a {
-		color: #fff !important;
-	}
 
 #footer {
 	clear: both;
@@ -179,32 +151,45 @@ a:active {
 
 /***************************** sidebar navigation ****************************/
 
-#categories {
-	font-family: Constantia, Georgia, serif;
-	list-style-type: none;
-	border-right: #5d5a53 1px dotted;
-	padding-right: 10px;
-	margin: 0 25px 0 0;
-	float: left;
+#sidebar-wrapper {
+	min-height: 100vh;
+	margin-left: -15rem;
+	-webkit-transition: margin .25s ease-out;
+	-moz-transition: margin .25s ease-out;
+	-o-transition: margin .25s ease-out;
+	transition: margin .25s ease-out;
 }
 
-	#categories a:link, #categories a:visited {
-		color: #9B9993;
-		text-decoration: none;
+	#sidebar-wrapper .sidebar-heading {
+		padding: 0.875rem 1.25rem;
+		font-size: 1.2rem;
 	}
 
-	#categories a:hover {
-		color: #F46739;
+	#sidebar-wrapper .list-group {
+		width: 15rem;
 	}
 
-div#album-details p {
-	margin-bottom: 5px;
-	color: #5e5b54;
-	font-weight: bold;
+#page-content-wrapper {
+	min-width: 100vw;
 }
 
-p em {
-	color: #9b9993;
+#wrapper.toggled #sidebar-wrapper {
+	margin-left: 0;
+}
+
+@media (min-width: 768px) {
+	#sidebar-wrapper {
+		margin-left: 0;
+	}
+
+	#page-content-wrapper {
+		min-width: 0;
+		width: 100%;
+	}
+
+	#wrapper.toggled #sidebar-wrapper {
+		margin-left: -15rem;
+	}
 }
 
 /* Form styles */
@@ -250,33 +235,4 @@ input[type=text], input[type=password], select {
 
 .validation-summary-valid {
 	display: none;
-}
-
-/* Tables */
-table {
-	border: 1px solid #000;
-	border-collapse: collapse;
-	color: #666666;
-	min-width: 500px;
-	width: 100%;
-}
-
-tr {
-	border: 1px solid #000;
-	line-height: 25px;
-}
-
-th {
-	background-color: #9b9993;
-	color: #000;
-	font-size: 13px;
-	text-align: left;
-}
-
-th, td {
-	padding-left: 5px;
-}
-
-tr:hover {
-	background-color: #fff;
 }
