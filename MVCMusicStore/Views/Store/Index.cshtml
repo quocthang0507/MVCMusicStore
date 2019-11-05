@@ -4,13 +4,12 @@
 	ViewBag.Title = "Index";
 }
 
-<h3>Duyệt qua các thể loại</h3>
+<h2>Duyệt qua các thể loại</h2>
 <p>Chọn một trong @Model.Count() thể loại sau:</p>
-<ul>
+<ul class="list-group">
 	@foreach (var genre in Model)
 	{
-		//<a href="/Store/Browse?genre=@genre.Name">@genre.Name</a>
-		<li>@Html.ActionLink(genre.Name, "Browse", new { genre = genre.Name })</li>
+		<li class="list-group-item">@Html.ActionLink(genre.Name, "Browse", new { genre = genre.Name })</li>
 	}
 </ul>
 

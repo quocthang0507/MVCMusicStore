@@ -3,13 +3,17 @@
 <head>
 	<title>Cửa hàng Âm nhạc</title>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta lang="vi" />
+	<meta name="author" content="">
+	<meta name="description" content="">
 	<link href="~/Content/Site.css" rel="stylesheet" />
 	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Content/sidebar.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-3.4.1.slim.min.js"></script>
-	<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 	<script src="~/Scripts/modernizr-2.8.3.js"></script>
+	<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 	<script src="~/Scripts/bootstrap.bundle.min.js"></script>
 	@{
 		string username = "";
@@ -23,7 +27,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 		<div class="container">
 			<a href="@Url.Content("~")" class="navbar-brand">
-				<img src="~/Content/Images/logo.png" alt="" />
+				<img src="~/Content/Images/logo.png" alt="" class="center"/>
 				CỬA HÀNG ÂM NHẠC
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,9 +60,11 @@
 					<li class="nav-item"><a href="/Home/About" class="nav-link">Giới thiệu</a></li>
 				</ul>
 			</div>
+			<button class="btn btn-dark" id="menu-toggle">Albums</button>
+
 		</div>
 	</nav>
-	<div class="d-flex" id="wrapper">
+	<div class="d-flex toggled" id="wrapper">
 		<div class="bg-light border-right" id="sidebar-wrapper">
 			<div class="sidebar-heading">Thể loại</div>
 			<div class="list-group list-group-flush">
@@ -74,8 +80,14 @@
 	<div class="row w-100">
 		<div class="col-12 py-3" id="footer">
 			<p>Built with <a href="https://dotnet.microsoft.com/apps/aspnet/mvc" target="_blank">ASP.NET MVC 5 - La Quoc Thang</a></p>
-			<p>You can reference at <a href="https://web.csulb.edu/~pnguyen/cecs475/labs/mvc-music-store-tutorial-v30.pdf" target="_blank">here</a> and <a href="https://archive.codeplex.com/?p=mvcmusicstore" target="_blank">here</a></p>
+			<p>Reference from <a href="https://web.csulb.edu/~pnguyen/cecs475/labs/mvc-music-store-tutorial-v30.pdf" target="_blank">here</a> and <a href="https://archive.codeplex.com/?p=mvcmusicstore" target="_blank">here</a></p>
 		</div>
 	</div>
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
 </body>
 </html>
