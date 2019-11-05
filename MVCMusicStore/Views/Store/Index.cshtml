@@ -9,7 +9,7 @@
 <ul class="list-group">
 	@foreach (var genre in Model)
 	{
-		<li class="list-group-item">@Html.ActionLink(genre.Name, "Browse", new { genre = genre.Name })</li>
+		<li class="list-group-item list-group-item-action">@Html.ActionLink(genre.Name, "Browse", new { genre = genre.Name })</li>
 	}
 </ul>
 

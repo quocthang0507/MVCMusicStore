@@ -16,33 +16,36 @@
 
 @using (Html.BeginForm())
 {
-	<div>
-		<fieldset>
-			<legend>Thông tin đăng nhập tài khoản</legend>
+	<div class="card card-signin my-5">
+		<div class="card-body">
+			<fieldset>
+				<legend class="card-title text-center">Thông tin đăng nhập tài khoản</legend>
+				<div style="max-width:400px; padding: 15px 35px 45px; margin: 0 auto;">
+					<div class="editor-label">
+						@Html.LabelFor(m => m.UserName)
+					</div>
+					<div class="editor-field">
+						@Html.TextBoxFor(m => m.UserName)
+						@Html.ValidationMessageFor(m => m.UserName)
+					</div>
 
-			<div class="editor-label">
-				@Html.LabelFor(m => m.UserName)
-			</div>
-			<div class="editor-field">
-				@Html.TextBoxFor(m => m.UserName)
-				@Html.ValidationMessageFor(m => m.UserName)
-			</div>
+					<div class="editor-label">
+						@Html.LabelFor(m => m.Password)
+					</div>
+					<div class="editor-field">
+						@Html.PasswordFor(m => m.Password)
+						@Html.ValidationMessageFor(m => m.Password)
+					</div>
 
-			<div class="editor-label">
-				@Html.LabelFor(m => m.Password)
-			</div>
-			<div class="editor-field">
-				@Html.PasswordFor(m => m.Password)
-				@Html.ValidationMessageFor(m => m.Password)
-			</div>
-
-			<div class="editor-label">
-				@Html.CheckBoxFor(m => m.RememberMe)
-				@Html.LabelFor(m => m.RememberMe)
-			</div>
-			<p>
-				<input class="btn btn-dark" type="submit" value="Đăng nhập" />
-			</p>
-		</fieldset>
+					<div class="editor-label">
+						@Html.CheckBoxFor(m => m.RememberMe)
+						@Html.LabelFor(m => m.RememberMe)
+					</div>
+					<div style="text-align:center;">
+						<input class="btn btn-info" type="submit" value="Đăng nhập" />
+					</div>
+				</div>
+			</fieldset>
+		</div>
 	</div>
 }
