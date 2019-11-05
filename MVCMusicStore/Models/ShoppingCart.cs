@@ -44,6 +44,18 @@ namespace MVCMusicStore.Models
 		/// <param name="album">Album cần thêm</param>
 		public void AddToCart(Album album)
 		{
+			AddToCart(album, 1);
+		}
+
+		/// <summary>
+		/// Thêm một album vào giỏ hàng cùng với số lượng
+		/// </summary>
+		/// <param name="album">Album cần thêm</param>
+		/// <param name="quantity">Số lượng</param>
+		public void AddToCart(Album album, int quantity)
+		{
+			if (quantity <= 0)
+				return;
 			// Get the matching cart and album instances
 			var cartItem = storeDB.Carts.SingleOrDefault(c => c.CartId == ShoppingCartId && c.AlbumId == album.AlbumId);
 			if (cartItem == null)
@@ -53,19 +65,20 @@ namespace MVCMusicStore.Models
 				{
 					AlbumId = album.AlbumId,
 					CartId = ShoppingCartId,
-					Count = 1,
+					Count = quantity,
 					DateCreated = DateTime.Now
 				};
 				storeDB.Carts.Add(cartItem);
 			}
 			else
 			{
-				// If the item does exist in the cart, then add one to the quantity
-				cartItem.Count++;
+				// If the item exists in the cart, then add the number to the quantity
+				cartItem.Count += quantity;
 			}
 			// Save changes
 			storeDB.SaveChanges();
 		}
+
 
 		/// <summary>
 		/// Bỏ một đơn hàng ra khỏi giỏ hàng
@@ -77,6 +90,7 @@ namespace MVCMusicStore.Models
 			// Get the cart
 			var cartItem = storeDB.Carts.Single(cart => cart.CartId == ShoppingCartId && cart.RecordId == id);
 			int itemCount = 0;
+			// If it exists
 			if (cartItem != null)
 			{
 				if (cartItem.Count > 1)

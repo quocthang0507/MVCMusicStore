@@ -7,7 +7,6 @@
 <h2>Thông tin chi tiết</h2>
 <h5>@ViewBag.Title</h5>
 
-
 <div id="album-details">
 	<div class="center">
 		<img alt="@Model.Title" src="@Model.AlbumArtUrl" />
@@ -25,6 +24,21 @@
 				<td><b>@String.Format("{0:C}", Model.Price)</b></td>
 			</tr>
 		</table>
-		<input type="button" class="btn btn-info" value="Thêm vào giỏ hàng" onclick="location.href='@Url.Action("AddToCart", "ShoppingCart",new { id = Model.AlbumId })'" />
+		<div class="form-group">
+			<label for="quantity" style="display:inline-block;">Số lượng: </label>
+			<input id="quantity" style="max-width:80px;display:inline-block;" class="form-control" type="number" min="1" max="100" step="1" value="1" />
+			@*<input type="button" class="btn btn-info" style="display:inline-block;" value="Thêm vào giỏ hàng" onclick="location.href='@Url.Action("AddToCart", "ShoppingCart", new { id = Model.AlbumId })'" />*@
+			<input type="button" id="checkout" class="btn btn-info" value="Thêm vào giỏ hàng" />
+			<script>
+				$(document).ready(function () {
+					$("#checkout").click(function(event){
+						var id = @Model.AlbumId;
+						var quantity = $("#quantity").val();
+						event.preventDefault();
+						window.location.href = "@Url.Action("AddToCart", "ShoppingCart")" + "?id=" + id + "&quantity="+ quantity;
+					});
+				})
+			</script>
+		</div>
 	</div>
 </div>

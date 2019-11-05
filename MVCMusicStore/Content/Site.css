@@ -165,11 +165,14 @@ input[type=text], input[type=password], input[type=email], select {
 
 /* Details */
 
-#album-details {
+#album-details .center {
+	text-align: center;
+	display: block;
+	width: 50%;
+	max-width: 75%;
 }
 
-	#album-details .center {
-		text-align: center;
-		display: block;
-		width: 25%;
+	#album-details .center .table td {
+		white-space: nowrap;
+		width: 1%;
 	}

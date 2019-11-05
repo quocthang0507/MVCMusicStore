@@ -25,13 +25,14 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// GET: /Store/AddToCart/5
-		public ActionResult AddToCart(int id)
+		public ActionResult AddToCart(int id, int quantity = 1)
 		{
 			// Retrieve the album from the database
 			var addedAlbum = storeDB.Albums.Single(album => album.AlbumId == id);
-			// Add it to the shopping cart
+			// Get the current shopping cart
 			var cart = ShoppingCart.GetCart(this.HttpContext);
-			cart.AddToCart(addedAlbum);
+			// Add it to the shopping cart
+			cart.AddToCart(addedAlbum, quantity);
 			// Go back to the main store page for more shopping
 			return RedirectToAction("Index");
 		}
@@ -41,7 +42,7 @@ namespace MVCMusicStore.Controllers
 		[HttpPost]
 		public ActionResult RemoveFromCart(int id)
 		{
-			// Remove the item from the cart
+			// Get the current shopping cart
 			var cart = ShoppingCart.GetCart(this.HttpContext);
 			// Get the name of the album to display confirmation
 			string albumName = storeDB.Carts.Single(item => item.RecordId == id).Album.Title;
