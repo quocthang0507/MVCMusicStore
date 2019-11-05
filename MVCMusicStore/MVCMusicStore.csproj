@@ -168,6 +168,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\1.png" />
     <Content Include="Content\Images\2.png" />
+    <Content Include="Content\Images\favicon.png" />
     <Content Include="Content\Images\home-showcase.png" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\placeholder.gif" />

@@ -4,24 +4,27 @@
 	ViewBag.Title = "Album - " + Model.Title;
 }
 
-<p>
-	<img alt="@Model.Title" src="@Model.AlbumArtUrl" />
-</p>
+<h2>Thông tin chi tiết</h2>
+<h5>@ViewBag.Title</h5>
+
+
 <div id="album-details">
-	<p>
-		<em>Genre:</em>
-		@Model.Genre.Name
-	</p>
-	<p>
-		<em>Artist:</em>
-		@Model.Artist.Name
-	</p>
-	<p>
-		<em>Price:</em>
-		@String.Format("{0:F}", Model.Price)
-	</p>
-	<p class="button">
-		@Html.ActionLink("Add to cart", "AddToCart",
-		"ShoppingCart", new { id = Model.AlbumId }, "")
-	</p>
+	<div class="center">
+		<img alt="@Model.Title" src="@Model.AlbumArtUrl" />
+		<table class="table table-borderless">
+			<tr>
+				<td>Thể loại:</td>
+				<td><b>@Model.Genre.Name</b></td>
+			</tr>
+			<tr>
+				<td>Nghệ sĩ:</td>
+				<td><b>@Model.Artist.Name</b></td>
+			</tr>
+			<tr>
+				<td>Giá:</td>
+				<td><b>@String.Format("{0:C}", Model.Price)</b></td>
+			</tr>
+		</table>
+		<input type="button" class="btn btn-info" value="Thêm vào giỏ hàng" onclick="location.href='@Url.Action("AddToCart", "ShoppingCart",new { id = Model.AlbumId })'" />
+	</div>
 </div>

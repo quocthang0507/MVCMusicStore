@@ -61,11 +61,7 @@ ul#album-list {
 
 #footer {
 	clear: both;
-	padding: 10px;
 	text-align: right;
-	border-top: 1px dotted #8A8575;
-	border-bottom: 1px dotted #8A8575;
-	font-family: Constantia, Georgia, serif;
 }
 
 .center {
@@ -74,32 +70,6 @@ ul#album-list {
 	margin-right: auto;
 	width: 50%;
 }
-
-/******************** Top Navigation ************************/
-ul#navlist {
-	float: right;
-}
-
-	ul#navlist li {
-		display: inline;
-	}
-
-		ul#navlist li a {
-			border-left: 1px dotted #8A8575;
-			padding: 10px;
-			margin-top: 10px;
-			color: #8A8575;
-			text-decoration: none;
-			float: left;
-		}
-
-		ul#navlist li:first-child a {
-			border: none;
-		}
-
-		ul#navlist li a:hover {
-			color: #F6855E;
-		}
 
 /********************* End top navigation ***************************/
 
@@ -177,3 +147,29 @@ input[type=text], input[type=password], input[type=email], select {
 .validation-summary-valid {
 	display: none;
 }
+
+/* Animation Icon */
+
+.glyphicon {
+	color: #fff;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	transition: all 800ms ease-in-out;
+}
+
+	.glyphicon:hover {
+		-ms-transform: rotate(360deg); /* IE 9 */
+		-webkit-transform: rotate(360deg); /* Chrome, Safari, Opera */
+		transform: rotate(360deg);
+	}
+
+/* Details */
+
+#album-details {
+}
+
+	#album-details .center {
+		text-align: center;
+		display: block;
+		width: 25%;
+	}
