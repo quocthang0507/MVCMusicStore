@@ -10,20 +10,63 @@
 
 @using (Html.BeginForm())
 {
-	<h2>Address And Payment</h2>
+	<h2>Địa chỉ giao hàng và Phương thức thanh toán</h2>
 	<fieldset>
-		<legend>Shipping Information</legend>
-		@Html.EditorForModel()
+		<legend>Thông tin giao hàng</legend>
+		@*@Html.EditorForModel()*@
+		<div class="form-group">
+			@Html.LabelFor(m => m.FirstName)
+			@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.FirstName)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.LastName)
+			@Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.LastName)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Address)
+			@Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Address)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.District)
+			@Html.TextBoxFor(m => m.District, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.District)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Province)
+			@Html.TextBoxFor(m => m.Province, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Province)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.PostalCode)
+			@Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.PostalCode)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Country)
+			@Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Country)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Phone)
+			@Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Phone)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Email)
+			@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Email)
+		</div>
 	</fieldset>
 	<fieldset>
-		<legend>Payment</legend>
-		<p>We're running a promotion: all music is free with the promo code: "FREE"</p>
-		<div class="editor-label">
-			@Html.Label("Promo Code")
-		</div>
-		<div class="editor-field">
-			@Html.TextBox("PromoCode")
+		<legend>Thanh toán</legend>
+		<em>Nhập Mã giảm giá "FREE" để miễn phí toàn bộ!!!</em>
+		<div class="form-group">
+			@Html.Label("PromoCode")
+			@Html.TextBox("PromoCode", null, new { @class = "form-control" })
 		</div>
 	</fieldset>
-	<input type="submit" value="Submit Order" />
+	<input type="submit" value="Đặt hàng" class="btn btn-info" />
 }

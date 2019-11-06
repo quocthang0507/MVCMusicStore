@@ -28,7 +28,7 @@
 			<label for="quantity" style="display:inline-block;">Số lượng: </label>
 			<input id="quantity" style="max-width:80px;display:inline-block;" class="form-control" type="number" min="1" max="100" step="1" value="1" />
 			@*<input type="button" class="btn btn-info" style="display:inline-block;" value="Thêm vào giỏ hàng" onclick="location.href='@Url.Action("AddToCart", "ShoppingCart", new { id = Model.AlbumId })'" />*@
-			<input type="button" id="checkout" class="btn btn-info" value="Thêm vào giỏ hàng" />
+			<input type="button" id="checkout" class="btn btn-success" value="Thêm vào giỏ hàng" />
 			<script>
 				$(document).ready(function () {
 					$("#checkout").click(function(event){

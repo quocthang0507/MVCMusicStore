@@ -29,7 +29,7 @@
 
 <h2>Quản lý cửa hàng</h2>
 
-<input type="button" class="btn btn-dark" value="Thêm" onclick="location.href='@Url.Action("Create")'" />
+<input type="button" class="btn btn-success" value="Thêm" onclick="location.href='@Url.Action("Create")'" />
 
 <div style="margin-top:10px;">
 	<table class="table table-hover" id="table" cellspacing="0">
@@ -67,9 +67,9 @@
 						@Html.DisplayFor(modelItem => item.Price)
 					</td>
 					<td>
-						<input type="button" class="btn btn-sm btn-light" value="Sửa" onclick="location.href='@Url.Action("Edit", new { id = item.AlbumId })'" />
-						<input type="button" class="btn btn-sm btn-light" value="Chi tiết" onclick="location.href='@Url.Action("Details",new { id = item.AlbumId })'" />
-						<input type="button" class="btn btn-sm btn-light" value="Xóa" onclick="location.href='@Url.Action("Delete",new { id = item.AlbumId })'" />
+						<input type="button" class="btn btn-sm btn-warning" value="Sửa" onclick="location.href='@Url.Action("Edit", new { id = item.AlbumId })'" />
+						<input type="button" class="btn btn-sm btn-info" value="Chi tiết" onclick="location.href='@Url.Action("Details",new { id = item.AlbumId })'" />
+						<input type="button" class="btn btn-sm btn-danger" value="Xóa" onclick="location.href='@Url.Action("Delete",new { id = item.AlbumId })'" />
 					</td>
 				</tr>
 			}
