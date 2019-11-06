@@ -136,24 +136,22 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				// ChangePassword will throw an exception rather
-				// than return false in certain failure scenarios.
+				// ChangePassword will throw an exception rather than return false in certain failure scenarios.
 				bool changePasswordSucceeded;
 				try
 				{
 					MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
 					changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
 				}
-				catch (Exception)
+				catch (ArgumentException)
 				{
 					changePasswordSucceeded = false;
+					ModelState.AddModelError("", "Mật khẩu cũ/mới không hợp lệ");
+
 				}
 				if (changePasswordSucceeded)
 					return RedirectToAction("ChangePasswordSuccess");
-				else
-					ModelState.AddModelError("", "Mật khẩu nhập lại không khớp hoặc không hợp lệ");
 			}
-
 			// If we got this far, something failed, redisplay form
 			return View(model);
 		}
@@ -168,8 +166,7 @@ namespace MVCMusicStore.Controllers
 		#region Status Codes
 		private static string ErrorCodeToString(MembershipCreateStatus createStatus)
 		{
-			// See http://go.microsoft.com/fwlink/?LinkID=177550 for
-			// a full list of status codes.
+			// See http://go.microsoft.com/fwlink/?LinkID=177550 for a full list of status codes.
 			switch (createStatus)
 			{
 				case MembershipCreateStatus.DuplicateUserName:

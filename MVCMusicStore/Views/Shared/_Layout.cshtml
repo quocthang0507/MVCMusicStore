@@ -9,9 +9,9 @@
 	<meta name="description" content="MVCMusicStore">
 	<link rel="shortcut icon" type="image/png" href="~/Content/Images/favicon.png" />
 
-	<link href="~/Content/Site.css" rel="stylesheet" type="text/css"/>
-	<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-	<link href="~/Content/sidebar.css" rel="stylesheet" type="text/css"/>
+	<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="~/Content/sidebar.css" rel="stylesheet" type="text/css" />
 
 	<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
 	<script src="~/Scripts/popper.min.js" type="text/javascript"></script>
@@ -54,15 +54,21 @@
 					{
 						<li class="nav-item"><a href="/Account/LogOn" class="nav-link">Đăng nhập</a></li>
 					}
-					else if (username.ToLower() == "administrator")
-					{
-						<li class="nav-item"><a href="@Url.Content("~/StoreManager/")" class="nav-link">Trang quản trị</a></li>
-						<li class="nav-item"><a href="@Url.Content("~/Account/LogOff")" class="nav-link">Đăng xuất</a></li>
-					}
 					else
 					{
-						<li class="nav-item"><a class="nav-link">Chào @username</a></li>
-						<li class="nav-item"><a href="@Url.Content("~/Account/LogOff")" class="nav-link">Đăng xuất</a></li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Chào @username
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								@if (username.ToLower() == "administrator")
+								{
+									<a class="dropdown-item" href="@Url.Content("~/StoreManager/")">Trang quản trị</a>
+								}
+								<a class="dropdown-item" href="@Url.Content("~/Account/ChangePassword")">Đổi mật khẩu</a>
+								<a class="dropdown-item" href="@Url.Content("~/Account/LogOff")">Đăng xuất</a>
+							</div>
+						</li>
 					}
 					<li class="nav-item"><a href="/Home/Contact" class="nav-link">Liên hệ</a></li>
 					<li class="nav-item"><a href="/Home/About" class="nav-link">Giới thiệu</a></li>

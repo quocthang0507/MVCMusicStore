@@ -13,11 +13,13 @@ namespace MVCMusicStore.Models
 		public string OldPassword { get; set; }
 
 		[Required]
-		[StringLength(100, ErrorMessage = "Mật khẩu {0} phải ít nhất {2} kí tự", MinimumLength = 6)]
+		[StringLength(100, ErrorMessage = "Mật khẩu {0} phải ít nhất {2} kí tự", MinimumLength = 7)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Mật khẩu mới")]
 		public string NewPassword { get; set; }
 
+		[Required]
+		[StringLength(100, ErrorMessage = "Mật khẩu {0} phải ít nhất {2} kí tự", MinimumLength = 7)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Xác nhận lại mật khẩu")]
 		[System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Mật khẩu không khớp")]
@@ -57,7 +59,7 @@ namespace MVCMusicStore.Models
 		public string Email { get; set; }
 
 		[Required]
-		[StringLength(100, ErrorMessage = "Mật khẩu {0} phải có ít nhất {2} kí tự", MinimumLength = 6)]
+		[StringLength(100, ErrorMessage = "Mật khẩu {0} phải có ít nhất {2} kí tự", MinimumLength = 7)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
 		public string Password { get; set; }
