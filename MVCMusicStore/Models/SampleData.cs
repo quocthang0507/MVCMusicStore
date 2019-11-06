@@ -6,6 +6,7 @@ namespace MVCMusicStore.Models
 {
 	/// <summary>
 	/// Dữ liệu mẫu
+	/// Adds “seed” data to a newly created database
 	/// </summary>
 	public class SampleData : DropCreateDatabaseIfModelChanges<MusicStoreEntities>
 	{

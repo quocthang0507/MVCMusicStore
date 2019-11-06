@@ -6,12 +6,12 @@ namespace MVCMusicStore.Controllers
 {
 	public class StoreController : Controller
 	{
-		private MusicStoreEntities storeDB = new MusicStoreEntities();
+		private MusicStoreEntities StoreDB = new MusicStoreEntities();
 
 		// GET: Store
 		public ActionResult Index()
 		{
-			var genres = storeDB.Genres.ToList();
+			var genres = StoreDB.Genres.ToList();
 			return View(genres);
 		}
 
@@ -20,7 +20,8 @@ namespace MVCMusicStore.Controllers
 		// Use the .Single() in LINQ to query for the appropriate Genre onject
 		public ActionResult Browse(string genre)
 		{
-			var genreModel = storeDB.Genres.Include("Albums").Single(g => g.Name == genre);
+			// Retrieve Genre and its Associated Albums from database
+			var genreModel = StoreDB.Genres.Include("Albums").Single(g => g.Name == genre);
 			return View(genreModel);
 		}
 
@@ -29,7 +30,7 @@ namespace MVCMusicStore.Controllers
 		// ASP.NET MVC will automatically pass the URL segment to you as a parameter
 		public ActionResult Details(int id)
 		{
-			var album = storeDB.Albums.Find(id);
+			var album = StoreDB.Albums.Find(id);
 			return View(album);
 		}
 
@@ -38,7 +39,7 @@ namespace MVCMusicStore.Controllers
 		[ChildActionOnly]
 		public ActionResult GenreMenu()
 		{
-			var genres = storeDB.Genres.ToList();
+			var genres = StoreDB.Genres.ToList();
 			return PartialView(genres);
 		}
 	}

@@ -6,25 +6,8 @@
 	float: left;
 }
 
-#header {
-	float: left;
-	width: 100%;
-	border-bottom: 1px dotted #5D5A53;
-	margin-bottom: 10px;
-}
-
-ul li a {
-	font-size: 16px;
-}
-
 a {
 	text-decoration: none;
-}
-
-#main {
-	overflow: hidden;
-	padding: 0 0 15px 10px;
-	float: left;
 }
 
 ul#album-list {
@@ -71,7 +54,7 @@ ul#album-list {
 	width: 50%;
 }
 
-/********************* End top navigation ***************************/
+/********************* Main Content ***************************/
 
 p {
 	margin-bottom: 15px;
