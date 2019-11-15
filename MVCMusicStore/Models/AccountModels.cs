@@ -64,6 +64,7 @@ namespace MVCMusicStore.Models
 		[Display(Name = "Password")]
 		public string Password { get; set; }
 
+		[Required]
 		[DataType(DataType.Password)]
 		[Display(Name = "Xác nhận lại mật khẩu")]
 		[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Mật khẩu không khớp")]
