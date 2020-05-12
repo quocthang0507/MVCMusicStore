@@ -61,7 +61,7 @@
 								Chào @username
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								@if (username.ToLower() == "administrator")
+								@if (username.ToLower() == "administrator" || username.ToLower() == "admin")
 								{
 									<a class="dropdown-item" href="@Url.Content("~/StoreManager/")">Trang quản trị</a>
 								}
