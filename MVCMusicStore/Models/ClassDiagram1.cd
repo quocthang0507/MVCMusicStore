@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MVCMusicStore.Models.ChangePasswordModel">
+    <Position X="10" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.LogOnModel">
+    <Position X="10" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQAAAAAgAAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.RegisterModel">
+    <Position X="8.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAQAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.Album">
+    <Position X="3" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAQAAIEAAABIAEAAAgIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Album.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.Artist">
+    <Position X="3" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Artist.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.Cart">
+    <Position X="4.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAgAAAAAAAAAAECAIACAA=</HashCode>
+      <FileName>Models\Cart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.Genre">
+    <Position X="3" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgIAAAAAAAAAQAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Models\Genre.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.MusicStoreEntities">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAABIACAAAAAAAAAAAAEAACAAAAAA=</HashCode>
+      <FileName>Models\MusicStoreEntities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.Order">
+    <Position X="4.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAAAAUAAACAAAAAAIRAAAAAAAAIAQAACAAAAIgAAAAg=</HashCode>
+      <FileName>Models\Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.OrderDetail">
+    <Position X="6.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAEAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAiQAAAAA=</HashCode>
+      <FileName>Models\OrderDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.SampleData">
+    <Position X="10" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\SampleData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCMusicStore.Models.ShoppingCart">
+    <Position X="8.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAhAQAAAAGABAAEEAAAAAAIAAAAAAAAAAACA=</HashCode>
+      <FileName>Models\ShoppingCart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

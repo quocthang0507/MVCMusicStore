@@ -183,6 +183,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Controllers\ClassDiagram1.cd" />
+    <Content Include="Models\ClassDiagram1.cd" />
     <None Include="Properties\PublishProfiles\musiclqt - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\musiclqt - Web Deploy.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js" />
