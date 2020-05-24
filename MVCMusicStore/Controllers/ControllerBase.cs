@@ -3,19 +3,17 @@ using System.Web.Mvc;
 
 namespace MVCMusicStore.Controllers
 {
-	public class ControllerBase : Controller
+	public class ControllerBase : AsyncController
 	{
 		private IMusicStoreEntities _storeDB;
+
 		protected IMusicStoreEntities StoreDB { get { return _storeDB; } }
 
-		public ControllerBase() : this(new MusicStoreEntities())
-		{
+		public ControllerBase() : this(new MusicStoreEntities()) { }
 
-		}
-
-		public ControllerBase(IMusicStoreEntities musicStoreEntities)
+		public ControllerBase(IMusicStoreEntities storeDb)
 		{
-			this._storeDB = musicStoreEntities;
+			_storeDB = storeDb;
 		}
 	}
 }

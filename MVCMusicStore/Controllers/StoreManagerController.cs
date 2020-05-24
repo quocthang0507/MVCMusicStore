@@ -85,7 +85,7 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				StoreDB.Entry(album).State = EntityState.Added;
+				StoreDB.SetModified(album);
 				StoreDB.SaveChanges();
 				return RedirectToAction("Index");
 			}

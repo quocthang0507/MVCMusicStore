@@ -1,13 +1,21 @@
 ﻿using MVCMusicStore.Models;
+using MVCMusicStore.Test.Fakes;
 using Rhino.Mocks;
 
 namespace MVSMusicStore.Test
 {
-	public class MusicStoreEntitiesFactory
+	class MusicStoreEntitiesFactory
 	{
-		public static IMusicStoreEntities GetEmpty()
+		public static FakeDataStore GetEmpty()
 		{
-			return MockRepository.GenerateMock<IMusicStoreEntities>();
+			FakeDataStore datastore = new FakeDataStore();
+			datastore.Albums = new FakeDbSet<Album>();
+			datastore.Artists = new FakeDbSet<Artist>();
+			datastore.Carts = new FakeDbSet<Cart>();
+			datastore.Genres = new FakeDbSet<Genre>();
+			datastore.OrderDetails = new FakeDbSet<OrderDetail>();
+			datastore.Orders = new FakeDbSet<Order>();
+			return datastore;
 		}
 	}
 }
