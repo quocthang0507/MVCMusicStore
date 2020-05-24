@@ -6,14 +6,21 @@ using System.Web.Security;
 
 namespace MVCMusicStore.Controllers
 {
-	public class AccountController : Controller
+	public class AccountController : ControllerBase
 	{
 		private string CookieName = "UserCookies";
+
+		public AccountController()
+		{
+
+		}
+		
+		public AccountController(IMusicStoreEntities storeDb) : base(storeDb) { }
 
 		private void MigrateShoppingCart(string UserName)
 		{
 			// Associate shopping cart items with logged-in user
-			var cart = ShoppingCart.GetCart(this.HttpContext);
+			var cart = ShoppingCart.GetCart(this.HttpContext, StoreDB);
 			cart.MigrateCart(UserName);
 			Session[ShoppingCart.CartSessionKey] = UserName;
 		}

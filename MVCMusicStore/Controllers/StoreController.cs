@@ -1,12 +1,19 @@
 ﻿using MVCMusicStore.Models;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace MVCMusicStore.Controllers
 {
-	public class StoreController : Controller
+	public class StoreController : ControllerBase
 	{
-		private MusicStoreEntities StoreDB = new MusicStoreEntities();
+		public StoreController()
+		{
+
+		}
+
+		public StoreController(IMusicStoreEntities storeDb) : base(storeDb) { }
+
 
 		// GET: Store
 		public ActionResult Index()

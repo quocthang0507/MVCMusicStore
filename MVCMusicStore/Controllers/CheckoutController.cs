@@ -6,10 +6,16 @@ using System.Web.Mvc;
 namespace MVCMusicStore.Controllers
 {
 	[Authorize]
-	public class CheckoutController : Controller
+	public class CheckoutController : ControllerBase
 	{
-		private MusicStoreEntities storeDB = new MusicStoreEntities();
 		private const string PromoCode = "FREE";
+
+		public CheckoutController()
+		{
+
+		}
+
+		public CheckoutController(IMusicStoreEntities storeDb) : base(storeDb) { }
 
 		//
 		// GET: /Checkout/AddressAndPayment
@@ -34,10 +40,10 @@ namespace MVCMusicStore.Controllers
 					order.Username = User.Identity.Name;
 					order.OrderDate = DateTime.Now;
 					//Save Order
-					storeDB.Orders.Add(order);
-					storeDB.SaveChanges();
+					StoreDB.Orders.Add(order);
+					StoreDB.SaveChanges();
 					//Process the order
-					var cart = ShoppingCart.GetCart(this.HttpContext);
+					var cart = ShoppingCart.GetCart(this.HttpContext, StoreDB);
 					cart.CreateOrder(order);
 					return RedirectToAction("Complete", new { id = order.OrderId });
 				}
@@ -54,7 +60,7 @@ namespace MVCMusicStore.Controllers
 		public ActionResult Complete(int id)
 		{
 			// Validate customer owns this order
-			bool isValid = storeDB.Orders.Any(o => o.OrderId == id && o.Username == User.Identity.Name);
+			bool isValid = StoreDB.Orders.Any(o => o.OrderId == id && o.Username == User.Identity.Name);
 			if (isValid)
 				return View(id);
 			else

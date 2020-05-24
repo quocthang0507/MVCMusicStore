@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MVCMusicStore.Controllers;
 
 namespace UnitTest1_2
 {
@@ -11,6 +9,8 @@ namespace UnitTest1_2
 	[TestClass]
 	public class TestCase2
 	{
+		private StoreManagerController controller = new StoreManagerController();
+
 		[TestMethod]
 		public void Test1()
 		{

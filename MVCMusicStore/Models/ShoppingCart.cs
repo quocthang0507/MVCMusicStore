@@ -11,19 +11,24 @@ namespace MVCMusicStore.Models
 	/// </summary>
 	public class ShoppingCart
 	{
-		private MusicStoreEntities storeDB = new MusicStoreEntities();
+		private IMusicStoreEntities storeDB;
 		private string ShoppingCartId { get; set; }
 
 		public const string CartSessionKey = "CartId";
+
+		public ShoppingCart(IMusicStoreEntities dbContext)
+		{
+			storeDB = dbContext;
+		}
 
 		/// <summary>
 		/// Lấy giỏ hàng từ user
 		/// </summary>
 		/// <param name="context">HTTP Request</param>
 		/// <returns>Giỏ hàng</returns>
-		public static ShoppingCart GetCart(HttpContextBase context)
+		public static ShoppingCart GetCart(HttpContextBase context, IMusicStoreEntities dbContext)
 		{
-			var cart = new ShoppingCart();
+			var cart = new ShoppingCart(dbContext);
 			cart.ShoppingCartId = cart.GetCartId(context);
 			return cart;
 		}
@@ -33,9 +38,9 @@ namespace MVCMusicStore.Models
 		/// </summary>
 		/// <param name="controller"></param>
 		/// <returns></returns>
-		public static ShoppingCart GetCart(Controller controller)
+		public static ShoppingCart GetCart(Controller controller, IMusicStoreEntities dbContext)
 		{
-			return GetCart(controller.HttpContext);
+			return GetCart(controller.HttpContext, dbContext);
 		}
 
 		/// <summary>
