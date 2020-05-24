@@ -14,7 +14,7 @@ namespace MVCMusicStore.Controllers
 		{
 
 		}
-		
+
 		public AccountController(IMusicStoreEntities storeDb) : base(storeDb) { }
 
 		private void MigrateShoppingCart(string UserName)

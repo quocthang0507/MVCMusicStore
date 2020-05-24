@@ -1,13 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MVCMusicStore.Controllers;
 using MVCMusicStore.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
-using System.Web.Services.Description;
 
-namespace UnitTest1_2
+namespace MVSMusicStore.Test
 {
 	/// <summary>
 	/// Tên sản phẩm không hợp lệ
