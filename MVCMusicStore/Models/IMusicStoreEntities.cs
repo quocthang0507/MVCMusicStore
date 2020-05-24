@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Threading.Tasks;
 
 namespace MVCMusicStore.Models
 {
@@ -13,7 +14,9 @@ namespace MVCMusicStore.Models
 		IDbSet<Order> Orders { get; set; }
 		IDbSet<OrderDetail> OrderDetails { get; set; }
 
-		DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 		int SaveChanges();
+		void SetModified(object target);
+
+		Task<int> SaveChangesAsync();
 	}
 }

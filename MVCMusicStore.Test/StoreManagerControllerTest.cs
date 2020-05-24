@@ -13,7 +13,7 @@ namespace MVSMusicStore.Test
 	{
 
 		[TestMethod]
-		public void Test1()
+		public void Create_Invalid_Album()
 		{
 			StoreManagerController controller = new StoreManagerController(MusicStoreEntitiesFactory.GetEmpty());
 			Album data = new Album { Title = "~!@#$%^&*()_+{}:", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };

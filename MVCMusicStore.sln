@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCMusicStore", "MVCMusicStore\MVCMusicStore.csproj", "{6AF15415-C7A9-4C48-91BA-96ED15C80AFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVSMusicStore.Test", "MVSMusicStore.Test\MVSMusicStore.Test.csproj", "{4EBD564A-AF7D-45F0-9256-C4AF56F9204E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCMusicStore.Test", "MVCMusicStore.Test\MVCMusicStore.Test.csproj", "{4EBD564A-AF7D-45F0-9256-C4AF56F9204E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
