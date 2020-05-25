@@ -9,7 +9,7 @@ namespace MVCMusicStore.Models
 	/// <summary>
 	/// Giỏ hàng
 	/// </summary>
-	public class ShoppingCart
+	public class ShoppingCart : IDisposable
 	{
 		private IMusicStoreEntities storeDB;
 		private string ShoppingCartId { get; set; }
@@ -232,5 +232,30 @@ namespace MVCMusicStore.Models
 				item.CartId = userName;
 			storeDB.SaveChanges();
 		}
+
+		private bool _disposed = false;
+		public void Dispose()
+		{
+			if (!_disposed)
+			{
+				storeDB.Dispose();
+				_disposed = true;
+			}
+		}
+
+		public async Task MigrateCartAsync(string userName)
+		{
+			if (_disposed) throw new ObjectDisposedException(GetType().Name);
+
+			var shoppingCart = storeDB.Carts.Where(
+				c => c.CartId == ShoppingCartId);
+
+			foreach (Cart item in shoppingCart)
+			{
+				item.CartId = userName;
+			}
+			await storeDB.SaveChangesAsync();
+		}
+
 	}
 }

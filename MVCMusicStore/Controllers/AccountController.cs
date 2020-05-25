@@ -1,5 +1,7 @@
-﻿using MVCMusicStore.Models;
+﻿using MvcMusicStore.Services;
+using MVCMusicStore.Models;
 using System;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -9,13 +11,21 @@ namespace MVCMusicStore.Controllers
 	public class AccountController : ControllerBase
 	{
 		private string CookieName = "UserCookies";
+		private IMembershipService _membership;
+		private IAuthenticationService _authentication;
 
 		public AccountController()
 		{
-
+			_membership = new MembershipService();
+			_authentication = new AuthenticationService();
 		}
 
-		public AccountController(IMusicStoreEntities storeDb) : base(storeDb) { }
+		public AccountController(IMusicStoreEntities storeDb, IAuthenticationService authService, IMembershipService membershipService)
+			: base(storeDb)
+		{
+			_membership = membershipService;
+			_authentication = authService;
+		}
 
 		private void MigrateShoppingCart(string UserName)
 		{
@@ -57,6 +67,42 @@ namespace MVCMusicStore.Controllers
 				}
 				else
 					ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu!");
+			}
+			// If we got this far, something failed, redisplay form
+			return View(model);
+		}
+
+		// POST: /Account/LogOn
+		[HttpPost]
+		public async Task<ActionResult> LogOnAsync(LogOnModel model, string returnUrl)
+		{
+			if (model == null) throw new ArgumentNullException("model");
+
+			if (ModelState.IsValid)
+			{
+				bool isValid = await Task.Factory.StartNew<bool>(() => _membership.ValidateUser(model.UserName, model.Password));
+				if (isValid)
+				{
+					await MigrateShoppingCartAsync(model.UserName);
+
+					_authentication.SetAuthCookie(model.UserName, model.RememberMe, Response);
+					try
+					{
+						if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1
+							&& returnUrl.StartsWith("/")
+							&& !returnUrl.StartsWith("//") &&
+							!returnUrl.StartsWith("/\\"))
+						{
+							return Redirect(returnUrl);
+						}
+					}
+					catch { }   // swallowing IsLocalUrl nullref
+					return RedirectToAction("Index", "Home");
+				}
+				else
+				{
+					ModelState.AddModelError("Error", "The user name or password provided is incorrect.");
+				}
 			}
 			// If we got this far, something failed, redisplay form
 			return View(model);
@@ -168,6 +214,17 @@ namespace MVCMusicStore.Controllers
 		public ActionResult ChangePasswordSuccess()
 		{
 			return View();
+		}
+
+		private async Task MigrateShoppingCartAsync(string userName)
+		{
+			// Associate shopping cart items with logged-in user
+			ShoppingCart cart = await Task.Factory.StartNew<ShoppingCart>(() => ShoppingCart.GetCart(this.HttpContext, StoreDB));
+			using (cart)
+			{
+				await cart.MigrateCartAsync(userName);
+				Session[ShoppingCart.CartSessionKey] = userName;
+			}
 		}
 
 		#region Status Codes
