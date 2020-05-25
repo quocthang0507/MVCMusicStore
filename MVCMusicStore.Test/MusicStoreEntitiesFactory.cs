@@ -4,7 +4,10 @@ using Rhino.Mocks;
 
 namespace MVSMusicStore.Test
 {
-	class MusicStoreEntitiesFactory
+	/// <summary>
+	/// Khởi tạo entities trống, dùng cho lớp FakeDataStore
+	/// </summary>
+	public class MusicStoreEntitiesFactory
 	{
 		public static FakeDataStore GetEmpty()
 		{

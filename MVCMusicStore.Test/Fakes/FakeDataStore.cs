@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace MVCMusicStore.Test.Fakes
 {
-	class FakeDataStore : IMusicStoreEntities
+	/// <summary>
+	/// Lớp tựa như MusicStoreEntities nhưng dùng cho mục đích kiểm thử
+	/// </summary>
+	public class FakeDataStore : IMusicStoreEntities
 	{
 
 		private List<object> _modifieds = new List<object>();
