@@ -86,7 +86,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerTests\AccountControllerTest.cs" />
-    <Compile Include="ControllerFactory.cs" />
+    <Compile Include="ControllerTests\ControllerFactory.cs" />
+    <Compile Include="ControllerTests\ShoppingCartControllerTest.cs" />
     <Compile Include="Fakes\FakeDataStore.cs" />
     <Compile Include="Fakes\FakeDbSet.cs" />
     <Compile Include="Fakes\FakeUser.cs" />

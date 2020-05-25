@@ -8,11 +8,14 @@ using System.Web.Mvc;
 
 namespace MVSMusicStore.Test
 {
+	/// <summary>
+	/// Kiểm tra chức năng đăng nhập
+	/// </summary>
 	[TestClass]
 	public class AccountControllerTest
 	{
 		[TestMethod]
-		public void LogOn_WithValidModelAndURL_RedirectsToSpecifiedURL()
+		public void LogOn_Valid_Login()
 		{
 			AccountController controller = GetWiredUpAccountController();
 			LogOnModel inputModel = new LogOnModel() { UserName = "admin", Password = "P@55w0rd", RememberMe = false };
@@ -20,20 +23,12 @@ namespace MVSMusicStore.Test
 			Assert.AreEqual("/Checkout/", result.Url);
 		}
 
-		private AccountController GetWiredUpAccountController(IMembershipService memSvc = null, IAuthenticationService authSvc = null, FakeDataStore store = null)
+		private AccountController GetWiredUpAccountController(IMembershipService membershipSvc = null, IAuthenticationService authSvc = null, FakeDataStore store = null)
 		{
-			memSvc = memSvc ?? MockRepository.GenerateMock<IMembershipService>();
-			memSvc.Stub(a => a.ValidateUser(Arg.Is("admin"), Arg.Is("P@55w0rd"))).Return(true);
+			membershipSvc = membershipSvc ?? MockRepository.GenerateMock<IMembershipService>();
+			membershipSvc.Stub(a => a.ValidateUser(Arg.Is("admin"), Arg.Is("P@55w0rd"))).Return(true); // Khoi tao thong tin dang nhap tu truoc
 			authSvc = authSvc ?? MockRepository.GenerateStub<IAuthenticationService>();
-			return ControllerFactory.GetWiredUpController<AccountController>(s => new AccountController(s, authSvc, memSvc), store: store);
-		}
-
-		private void AssertRouteIsHome(RedirectToRouteResult result)
-		{
-			if (!result.RouteValues.ContainsValue("Index") || !result.RouteValues.ContainsValue("Home"))
-			{
-				throw new AssertFailedException("Route is not Index/Home");
-			}
+			return ControllerFactory.GetWiredUpController<AccountController>(s => new AccountController(s, authSvc, membershipSvc), store: store);
 		}
 	}
 }

@@ -7,16 +7,10 @@ using System.Reflection;
 
 namespace MVCMusicStore.Test.Fakes
 {
-
-	// This coe is mostly copy/pasted from an implementation posted here:
-	// http://refactorthis.wordpress.com/2011/05/31/mock-faking-dbcontext-in-entity-framework-4-1-with-a-generic-repository/
-	// http://refactorthis.wordpress.com/2011/11/30/generic-repository-fake-idbset-implementation-update-find-method-identity-key/
-
-
 	public class FakeDbSet<T> : IDbSet<T> where T : class
 	{
-		HashSet<T> _data;
-		IQueryable _query;
+		private HashSet<T> _data;
+		private IQueryable _query;
 
 		public FakeDbSet()
 		{
@@ -35,9 +29,8 @@ namespace MVCMusicStore.Test.Fakes
 			IQueryable<T> keyQuery = this.AsQueryable<T>();
 			for (int i = 0; i < keyValues.Length; i++)
 			{
-				var x = i; // nested linq
-				keyQuery = keyQuery
-				   .Where(entity => _keyProperties[x].GetValue(entity, null).Equals(keyValues[x]));
+				var x = i;
+				keyQuery = keyQuery.Where(entity => _keyProperties[x].GetValue(entity, null).Equals(keyValues[x]));
 			}
 
 			return keyQuery.SingleOrDefault();

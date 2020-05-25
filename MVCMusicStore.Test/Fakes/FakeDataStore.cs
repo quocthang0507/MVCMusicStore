@@ -15,20 +15,14 @@ namespace MVCMusicStore.Test.Fakes
 		private List<object> _saveds = new List<object>();
 
 		public System.Data.Entity.IDbSet<Album> Albums { get; set; }
-
 		public System.Data.Entity.IDbSet<Genre> Genres { get; set; }
-
 		public System.Data.Entity.IDbSet<Artist> Artists { get; set; }
-
 		public System.Data.Entity.IDbSet<Cart> Carts { get; set; }
-
 		public System.Data.Entity.IDbSet<Order> Orders { get; set; }
-
 		public System.Data.Entity.IDbSet<OrderDetail> OrderDetails { get; set; }
 
 		public virtual int SaveChanges()
 		{
-			// not threadsafe, but we're not sharing these across tests so shouldn't be needed
 			_saveds.AddRange(_modifieds);
 			return _modifieds.RemoveAll(m => true);
 		}
@@ -45,6 +39,14 @@ namespace MVCMusicStore.Test.Fakes
 
 		public static string SAMPLE_ALBUM_NAME_PREFIX = "Album #";
 
+		/// <summary>
+		/// Tạo và thêm album vào Entity Framework
+		/// </summary>
+		/// <param name="albumId"></param>
+		/// <param name="artistId"></param>
+		/// <param name="genreId"></param>
+		/// <param name="price"></param>
+		/// <returns></returns>
 		public Album GenerateAndAddAlbum(int albumId, int artistId, int genreId, decimal price)
 		{
 			Album album = GenerateAlbum(albumId, artistId, genreId, price);
@@ -57,6 +59,11 @@ namespace MVCMusicStore.Test.Fakes
 			return new Album() { AlbumId = albumId, AlbumArtUrl = "N/A", ArtistId = artistId, GenreId = genreId, Price = price, Title = SAMPLE_ALBUM_NAME_PREFIX + albumId.ToString(), OrderDetails = new List<OrderDetail>() };
 		}
 
+		/// <summary>
+		/// Tạo và thêm thể loại vào Entity Framework
+		/// </summary>
+		/// <param name="genreId"></param>
+		/// <param name="genreName"></param>
 		public void GenerateAndAddGenre(int genreId, string genreName = "")
 		{
 			Genres.Add(GenerateGenre(genreId, genreName));
@@ -68,6 +75,10 @@ namespace MVCMusicStore.Test.Fakes
 			return new Genre() { GenreId = genreId, Name = genreName, Description = genreName + " Described" };
 		}
 
+		/// <summary>
+		/// Tạo và thêm nghệ sĩ vào Entity Framework
+		/// </summary>
+		/// <param name="artistId"></param>
 		public void GenerateAndAddArtist(int artistId)
 		{
 			Artists.Add(GenerateArtist(artistId));
@@ -83,7 +94,7 @@ namespace MVCMusicStore.Test.Fakes
 			return _saveds.Any(s => s == target);
 		}
 
-		public System.Threading.Tasks.Task<int> SaveChangesAsync()
+		public Task<int> SaveChangesAsync()
 		{
 			return Task.Factory.StartNew<int>(() => SaveChanges());
 		}

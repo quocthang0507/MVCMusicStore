@@ -2,10 +2,9 @@
 
 namespace MVCMusicStore.Test.Fakes
 {
-	class FakeUser : IPrincipal
+	public class FakeUser : IPrincipal
 	{
-
-		IIdentity _identity;
+		private IIdentity _identity;
 
 		public FakeUser() : this(new FakeIdentity()) { }
 
@@ -25,10 +24,10 @@ namespace MVCMusicStore.Test.Fakes
 		}
 	}
 
-	class FakeIdentity : IIdentity
+	public class FakeIdentity : IIdentity
 	{
-		string _name, _authType;
-		bool _isAuthed;
+		private string _name, _authType;
+		private bool _isAuthed;
 
 		public FakeIdentity() : this("", "", false) { }
 
