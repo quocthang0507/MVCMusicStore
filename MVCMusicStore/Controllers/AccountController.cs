@@ -1,7 +1,6 @@
 ﻿using MvcMusicStore.Services;
 using MVCMusicStore.Models;
 using System;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -11,6 +10,7 @@ namespace MVCMusicStore.Controllers
 	public class AccountController : ControllerBase
 	{
 		private string CookieName = "UserCookies";
+
 		private IMembershipService _membership;
 		private IAuthenticationService _authentication;
 
@@ -47,13 +47,16 @@ namespace MVCMusicStore.Controllers
 		[HttpPost]
 		public ActionResult LogOn(LogOnModel model, string returnUrl)
 		{
+			if (model == null) throw new ArgumentNullException("model");
+
 			if (ModelState.IsValid)
 			{
-				if (Membership.ValidateUser(model.UserName, model.Password))
+				bool isValid = _membership.ValidateUser(model.UserName, model.Password);
+				if (isValid)
 				{
 					MigrateShoppingCart(model.UserName);
 
-					FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+					_authentication.SetAuthCookie(model.UserName, model.RememberMe, Response);
 					if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
 					{
 						CreateCookie(model.UserName);
@@ -64,40 +67,6 @@ namespace MVCMusicStore.Controllers
 						CreateCookie(model.UserName);
 						return RedirectToAction("Index", "Home");
 					}
-				}
-				else
-					ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu!");
-			}
-			// If we got this far, something failed, redisplay form
-			return View(model);
-		}
-
-		// POST: /Account/LogOn
-		[HttpPost]
-		public async Task<ActionResult> LogOnAsync(LogOnModel model, string returnUrl)
-		{
-			if (model == null) throw new ArgumentNullException("model");
-
-			if (ModelState.IsValid)
-			{
-				bool isValid = await Task.Factory.StartNew<bool>(() => _membership.ValidateUser(model.UserName, model.Password));
-				if (isValid)
-				{
-					await MigrateShoppingCartAsync(model.UserName);
-
-					_authentication.SetAuthCookie(model.UserName, model.RememberMe, Response);
-					try
-					{
-						if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1
-							&& returnUrl.StartsWith("/")
-							&& !returnUrl.StartsWith("//") &&
-							!returnUrl.StartsWith("/\\"))
-						{
-							return Redirect(returnUrl);
-						}
-					}
-					catch { }   // swallowing IsLocalUrl nullref
-					return RedirectToAction("Index", "Home");
 				}
 				else
 				{
@@ -112,7 +81,7 @@ namespace MVCMusicStore.Controllers
 		// GET: /Account/LogOff
 		public ActionResult LogOff()
 		{
-			FormsAuthentication.SignOut();
+			_authentication.SignOut();
 			MakeCookieExpried();
 			return RedirectToAction("Index", "Home");
 		}
@@ -126,7 +95,13 @@ namespace MVCMusicStore.Controllers
 			var cookies = new HttpCookie(CookieName);
 			cookies.Value = username;
 			cookies.Expires = DateTime.Now.AddHours(1);
-			Response.Cookies.Add(cookies);
+			try
+			{
+				Response.Cookies.Add(cookies);
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		/// <summary>
@@ -159,11 +134,11 @@ namespace MVCMusicStore.Controllers
 			{
 				// Attempt to register the user
 				MembershipCreateStatus createStatus;
-				Membership.CreateUser(model.UserName, model.Password, model.Email, "question", "answer", true, null, out createStatus);
+				createStatus = _membership.CreateUser(model.UserName, model.Password, model.Email, "question", "answer", true, null);
 				if (createStatus == MembershipCreateStatus.Success)
 				{
 					MigrateShoppingCart(model.UserName);
-					FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
+					_authentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */, Response);
 					return RedirectToAction("Index", "Home");
 				}
 				else
@@ -193,16 +168,15 @@ namespace MVCMusicStore.Controllers
 				bool changePasswordSucceeded;
 				try
 				{
-					MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
-					changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+					changePasswordSucceeded = _membership.ChangePassword(User.Identity.Name, true, model.OldPassword, model.NewPassword);
 				}
-				catch (ArgumentException)
+				catch
 				{
 					changePasswordSucceeded = false;
-					ModelState.AddModelError("", "Mật khẩu cũ/mới không hợp lệ");
-
 				}
-				if (changePasswordSucceeded)
+				if (!changePasswordSucceeded)
+					ModelState.AddModelError("", "Mật khẩu cũ/mới không hợp lệ");
+				else
 					return RedirectToAction("ChangePasswordSuccess");
 			}
 			// If we got this far, something failed, redisplay form
@@ -214,17 +188,6 @@ namespace MVCMusicStore.Controllers
 		public ActionResult ChangePasswordSuccess()
 		{
 			return View();
-		}
-
-		private async Task MigrateShoppingCartAsync(string userName)
-		{
-			// Associate shopping cart items with logged-in user
-			ShoppingCart cart = await Task.Factory.StartNew<ShoppingCart>(() => ShoppingCart.GetCart(this.HttpContext, StoreDB));
-			using (cart)
-			{
-				await cart.MigrateCartAsync(userName);
-				Session[ShoppingCart.CartSessionKey] = userName;
-			}
 		}
 
 		#region Status Codes

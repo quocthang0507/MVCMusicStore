@@ -85,12 +85,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerTests\AccountControllerTest.cs" />
     <Compile Include="ControllerFactory.cs" />
     <Compile Include="Fakes\FakeDataStore.cs" />
     <Compile Include="Fakes\FakeDbSet.cs" />
     <Compile Include="Fakes\FakeUser.cs" />
-    <Compile Include="MusicStoreEntitiesFactory.cs" />
-    <Compile Include="StoreManagerControllerTest.cs" />
+    <Compile Include="ControllerTests\MusicStoreEntitiesFactory.cs" />
+    <Compile Include="ControllerTests\StoreManagerControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

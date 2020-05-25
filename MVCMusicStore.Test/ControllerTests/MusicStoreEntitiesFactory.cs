@@ -1,6 +1,5 @@
 ﻿using MVCMusicStore.Models;
 using MVCMusicStore.Test.Fakes;
-using Rhino.Mocks;
 
 namespace MVSMusicStore.Test
 {
