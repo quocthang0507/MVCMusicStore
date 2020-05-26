@@ -50,14 +50,15 @@ namespace MVCMusicStore.Controllers
 			// Get the current shopping cart
 			var cart = ShoppingCart.GetCart(this.HttpContext, StoreDB);
 			// Get the name of the album to display confirmation
-			string albumName = StoreDB.Carts.Single(item => item.RecordId == id).Album.Title;
+			//string albumName = StoreDB.Carts.Single(item => item.RecordId == id).Album.Title;
 			// Remove from cart
 			int itemCount = cart.RemoveFromCart(id);
-			// Display the confirmation message
+            // Display the confirmation message
 			var results = new ShoppingCartRemoveViewModel
 			{
-				Message = Server.HtmlEncode(albumName) + " đã được gỡ bỏ thành công ra khỏi giỏ hàng của bạn",
-				CartTotal = cart.GetTotal(),
+                //Message = Server.HtmlEncode(albumName) + " đã được gỡ bỏ thành công ra khỏi giỏ hàng của bạn",
+                Message = Server.HtmlEncode("Helo"),
+                CartTotal = cart.GetTotal(),
 				CartCount = cart.GetCount(),
 				ItemCount = itemCount,
 				DeleteId = id

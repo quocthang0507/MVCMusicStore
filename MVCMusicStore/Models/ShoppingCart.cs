@@ -72,7 +72,8 @@ namespace MVCMusicStore.Models
 					AlbumId = album.AlbumId,
 					CartId = ShoppingCartId,
 					Count = quantity,
-					DateCreated = DateTime.Now
+					DateCreated = DateTime.Now,
+                    Album = album
 				};
 				storeDB.Carts.Add(cartItem);
 			}
@@ -94,7 +95,7 @@ namespace MVCMusicStore.Models
 		public int RemoveFromCart(int id)
 		{
 			// Get the cart
-			var cartItem = storeDB.Carts.Single(cart => cart.CartId == ShoppingCartId && cart.RecordId == id);
+			var cartItem = storeDB.Carts.Single(cart => cart.CartId == ShoppingCartId && cart.AlbumId == id);
 			int itemCount = 0;
 			// If it exists
 			if (cartItem != null)
