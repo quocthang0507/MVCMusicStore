@@ -7,15 +7,20 @@ using System.Web.Mvc;
 namespace MVCMusicStore.Controllers
 {
 	[Authorize(Roles = "Administrator")]
-	public class StoreManagerController : Controller
+	public class StoreManagerController : ControllerBase
 	{
-		private MusicStoreEntities db = new MusicStoreEntities();
+		public StoreManagerController()
+		{
+
+		}
+
+		public StoreManagerController(IMusicStoreEntities storeDb) : base(storeDb) { }
 
 		// GET: StoreManager
 		// The index view retrieves a list of Albums, including each album’s referenced Genre and Artist information
 		public ActionResult Index()
 		{
-			var albums = db.Albums.Include(a => a.Artist).Include(a => a.Genre);
+			var albums = StoreDB.Albums.Include(a => a.Artist).Include(a => a.Genre);
 			return View(albums.ToList());
 		}
 
@@ -26,7 +31,7 @@ namespace MVCMusicStore.Controllers
 		{
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			Album album = db.Albums.Find(id);
+			Album album = StoreDB.Albums.Find(id);
 			if (album == null)
 				return HttpNotFound();
 			return View(album);
@@ -35,8 +40,8 @@ namespace MVCMusicStore.Controllers
 		// GET: StoreManager/Create
 		public ActionResult Create()
 		{
-			ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name");
-			ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name");
+			ViewBag.ArtistId = new SelectList(StoreDB.Artists, "ArtistId", "Name");
+			ViewBag.GenreId = new SelectList(StoreDB.Genres, "GenreId", "Name");
 			return View();
 		}
 
@@ -49,12 +54,12 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				db.Albums.Add(album);
-				db.SaveChanges();
+				StoreDB.Albums.Add(album);
+				StoreDB.SaveChanges();
 				return RedirectToAction("Index");
 			}
-			ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", album.ArtistId);
-			ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", album.GenreId);
+			ViewBag.ArtistId = new SelectList(StoreDB.Artists, "ArtistId", "Name", album.ArtistId);
+			ViewBag.GenreId = new SelectList(StoreDB.Genres, "GenreId", "Name", album.GenreId);
 			return View(album);
 		}
 
@@ -63,11 +68,11 @@ namespace MVCMusicStore.Controllers
 		{
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			Album album = db.Albums.Find(id);
+			Album album = StoreDB.Albums.Find(id);
 			if (album == null)
 				return HttpNotFound();
-			ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", album.ArtistId);
-			ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", album.GenreId);
+			ViewBag.ArtistId = new SelectList(StoreDB.Artists, "ArtistId", "Name", album.ArtistId);
+			ViewBag.GenreId = new SelectList(StoreDB.Genres, "GenreId", "Name", album.GenreId);
 			return View(album);
 		}
 
@@ -80,12 +85,12 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				db.Entry(album).State = EntityState.Modified;
-				db.SaveChanges();
+				StoreDB.SetModified(album);
+				StoreDB.SaveChanges();
 				return RedirectToAction("Index");
 			}
-			ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", album.ArtistId);
-			ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", album.GenreId);
+			ViewBag.ArtistId = new SelectList(StoreDB.Artists, "ArtistId", "Name", album.ArtistId);
+			ViewBag.GenreId = new SelectList(StoreDB.Genres, "GenreId", "Name", album.GenreId);
 			return View(album);
 		}
 
@@ -94,7 +99,7 @@ namespace MVCMusicStore.Controllers
 		{
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			Album album = db.Albums.Find(id);
+			Album album = StoreDB.Albums.Find(id);
 			if (album == null)
 				return HttpNotFound();
 			return View(album);
@@ -105,16 +110,16 @@ namespace MVCMusicStore.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			Album album = db.Albums.Find(id);
-			db.Albums.Remove(album);
-			db.SaveChanges();
+			Album album = StoreDB.Albums.Find(id);
+			StoreDB.Albums.Remove(album);
+			StoreDB.SaveChanges();
 			return RedirectToAction("Index");
 		}
 
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
-				db.Dispose();
+				StoreDB.Dispose();
 			base.Dispose(disposing);
 		}
 	}

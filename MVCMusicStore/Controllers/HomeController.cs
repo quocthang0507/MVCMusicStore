@@ -5,9 +5,14 @@ using System.Web.Mvc;
 
 namespace MVCMusicStore.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : ControllerBase
 	{
-		private MusicStoreEntities storeDB = new MusicStoreEntities();
+		public HomeController()
+		{
+
+		}
+
+		public HomeController(IMusicStoreEntities storeDb) : base(storeDb) { }
 
 		// GET: Home
 		public ActionResult Index()
@@ -21,7 +26,7 @@ namespace MVCMusicStore.Controllers
 		{
 			// Group the order details by album and return
 			// the albums with the highest count
-			return storeDB.Albums.OrderByDescending(a => a.OrderDetails.Count()).Take(count).ToList();
+			return StoreDB.Albums.OrderByDescending(a => a.OrderDetails.Count()).Take(count).ToList();
 		}
 
 		public ActionResult Contact()

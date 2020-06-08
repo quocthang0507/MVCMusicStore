@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,21 +10,26 @@ namespace MVCMusicStore.Models
 	/// <summary>
 	/// Giỏ hàng
 	/// </summary>
-	public class ShoppingCart
+	public class ShoppingCart : IDisposable
 	{
-		private MusicStoreEntities storeDB = new MusicStoreEntities();
+		private IMusicStoreEntities storeDB;
 		private string ShoppingCartId { get; set; }
 
 		public const string CartSessionKey = "CartId";
+
+		public ShoppingCart(IMusicStoreEntities dbContext)
+		{
+			storeDB = dbContext;
+		}
 
 		/// <summary>
 		/// Lấy giỏ hàng từ user
 		/// </summary>
 		/// <param name="context">HTTP Request</param>
 		/// <returns>Giỏ hàng</returns>
-		public static ShoppingCart GetCart(HttpContextBase context)
+		public static ShoppingCart GetCart(HttpContextBase context, IMusicStoreEntities dbContext)
 		{
-			var cart = new ShoppingCart();
+			var cart = new ShoppingCart(dbContext);
 			cart.ShoppingCartId = cart.GetCartId(context);
 			return cart;
 		}
@@ -33,9 +39,9 @@ namespace MVCMusicStore.Models
 		/// </summary>
 		/// <param name="controller"></param>
 		/// <returns></returns>
-		public static ShoppingCart GetCart(Controller controller)
+		public static ShoppingCart GetCart(Controller controller, IMusicStoreEntities dbContext)
 		{
-			return GetCart(controller.HttpContext);
+			return GetCart(controller.HttpContext, dbContext);
 		}
 
 		/// <summary>
@@ -66,7 +72,8 @@ namespace MVCMusicStore.Models
 					AlbumId = album.AlbumId,
 					CartId = ShoppingCartId,
 					Count = quantity,
-					DateCreated = DateTime.Now
+					DateCreated = DateTime.Now,
+                    Album = album
 				};
 				storeDB.Carts.Add(cartItem);
 			}
@@ -88,7 +95,7 @@ namespace MVCMusicStore.Models
 		public int RemoveFromCart(int id)
 		{
 			// Get the cart
-			var cartItem = storeDB.Carts.Single(cart => cart.CartId == ShoppingCartId && cart.RecordId == id);
+			var cartItem = storeDB.Carts.Single(cart => cart.CartId == ShoppingCartId && cart.AlbumId == id);
 			int itemCount = 0;
 			// If it exists
 			if (cartItem != null)
@@ -227,5 +234,30 @@ namespace MVCMusicStore.Models
 				item.CartId = userName;
 			storeDB.SaveChanges();
 		}
+
+		private bool _disposed = false;
+		public void Dispose()
+		{
+			if (!_disposed)
+			{
+				storeDB.Dispose();
+				_disposed = true;
+			}
+		}
+
+		public async Task MigrateCartAsync(string userName)
+		{
+			if (_disposed) throw new ObjectDisposedException(GetType().Name);
+
+			var shoppingCart = storeDB.Carts.Where(
+				c => c.CartId == ShoppingCartId);
+
+			foreach (Cart item in shoppingCart)
+			{
+				item.CartId = userName;
+			}
+			await storeDB.SaveChangesAsync();
+		}
+
 	}
 }

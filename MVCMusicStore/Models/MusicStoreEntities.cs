@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace MVCMusicStore.Models
 {
@@ -7,13 +8,23 @@ namespace MVCMusicStore.Models
 	/// This class will represent the Entity Framework database context, and will handle our create, read, update, and
 	/// delete operations for us
 	/// </summary>
-	public class MusicStoreEntities : DbContext
+	public class MusicStoreEntities : DbContext, IMusicStoreEntities
 	{
-		public DbSet<Album> Albums { get; set; }
-		public DbSet<Genre> Genres { get; set; }
-		public DbSet<Artist> Artists { get; set; }
-		public DbSet<Cart> Carts { get; set; }
-		public DbSet<Order> Orders { get; set; }
-		public DbSet<OrderDetail> OrderDetails { get; set; }
+		public IDbSet<Album> Albums { get; set; }
+		public IDbSet<Genre> Genres { get; set; }
+		public IDbSet<Artist> Artists { get; set; }
+		public IDbSet<Cart> Carts { get; set; }
+		public IDbSet<Order> Orders { get; set; }
+		public IDbSet<OrderDetail> OrderDetails { get; set; }
+
+		public void SetModified(object target)
+		{
+			Entry(target).State = EntityState.Modified;
+		}
+
+		public Task<int> SaveChangesAsync()
+		{
+			return Task.Factory.StartNew<int>(() => SaveChanges());
+		}
 	}
 }
