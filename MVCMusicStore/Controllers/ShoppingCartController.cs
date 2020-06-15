@@ -37,9 +37,11 @@ namespace MVCMusicStore.Controllers
 			// Get the current shopping cart
 			var cart = ShoppingCart.GetCart(this.HttpContext, StoreDB);
 			// Add it to the shopping cart
-			cart.AddToCart(addedAlbum, quantity);
+			var result = cart.AddToCart(addedAlbum, quantity);
+            if(result)
 			// Go back to the main store page for more shopping
-			return RedirectToAction("Index");
+			    return RedirectToAction("Index");
+            return RedirectToAction("InvalidRequest", "Error");
 		}
 
 		//

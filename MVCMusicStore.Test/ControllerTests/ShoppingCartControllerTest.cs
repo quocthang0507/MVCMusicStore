@@ -35,7 +35,7 @@ namespace MVSMusicStore.Test.ControllerTests
             //Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
             //controller.AddToCart(1, 5);
             RedirectToRouteResult result = controller.AddToCart(2, -5) as RedirectToRouteResult;
-            Assert.IsTrue(result.RouteValues.ContainsValue("Index"));
+            Assert.IsTrue(result.RouteValues.ContainsValue("InvalidRequest"));
         }
         [TestMethod]
         public void AddProductToCartWhichExist()
