@@ -38,10 +38,10 @@ namespace MVCMusicStore.Controllers
 			var cart = ShoppingCart.GetCart(this.HttpContext, StoreDB);
 			// Add it to the shopping cart
 			var result = cart.AddToCart(addedAlbum, quantity);
-            if(result)
-			// Go back to the main store page for more shopping
-			    return RedirectToAction("Index");
-            return RedirectToAction("InvalidRequest", "Error");
+			if (result)
+				// Go back to the main store page for more shopping
+				return RedirectToAction("Index");
+			return RedirectToAction("InvalidRequest", "Error");
 		}
 
 		//
@@ -55,12 +55,12 @@ namespace MVCMusicStore.Controllers
 			//string albumName = StoreDB.Carts.Single(item => item.RecordId == id).Album.Title;
 			// Remove from cart
 			int itemCount = cart.RemoveFromCart(id);
-            // Display the confirmation message
+			// Display the confirmation message
 			var results = new ShoppingCartRemoveViewModel
 			{
-                //Message = Server.HtmlEncode(albumName) + " đã được gỡ bỏ thành công ra khỏi giỏ hàng của bạn",
-                Message = Server.HtmlEncode("Helo"),
-                CartTotal = cart.GetTotal(),
+				//Message = Server.HtmlEncode(albumName) + " đã được gỡ bỏ thành công ra khỏi giỏ hàng của bạn",
+				Message = Server.HtmlEncode("Helo"),
+				CartTotal = cart.GetTotal(),
 				CartCount = cart.GetCount(),
 				ItemCount = itemCount,
 				DeleteId = id
