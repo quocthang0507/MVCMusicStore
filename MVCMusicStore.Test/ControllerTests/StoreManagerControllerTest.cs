@@ -54,15 +54,15 @@ namespace MVSMusicStore.Test
 		}
 
 		[TestMethod]
-		public void Create_Valid_Price_Album()
+		public void Create_Miss_Required_Album()
 		{
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
 			dataStore.GenerateAndAddGenre(1);
 			dataStore.GenerateAndAddArtist(10);
 			StoreManagerController controller = ControllerFactory.GetWiredUpController<StoreManagerController>((s) => new StoreManagerController(s), store: dataStore);
-			Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
+			Album album = new Album { Genre = new Genre { Name = "Rock" }, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
 			RedirectToRouteResult result = controller.Create(album) as RedirectToRouteResult;
-			Assert.IsTrue(result.RouteValues.ContainsValue("Index"));
+			Assert.IsTrue(result.RouteValues.ContainsValue("InvalidRequest"));
 		}
 
 		/// <summary>
@@ -70,26 +70,29 @@ namespace MVSMusicStore.Test
 		/// </summary>
 
 		[TestMethod]
-		public void Edit_Invalid_Name_Album()
+		public void Edit_NotExsiting_Album()
 		{
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
 			dataStore.GenerateAndAddGenre(1);
 			dataStore.GenerateAndAddArtist(10);
-			Album album = new Album { Title = "~!@#$%^&*()_+{}:", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
 			StoreManagerController controller = ControllerFactory.GetWiredUpController<StoreManagerController>((s) => new StoreManagerController(s), store: dataStore);
+			Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 10M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
 			RedirectToRouteResult result = controller.Edit(album) as RedirectToRouteResult;
 			Assert.IsTrue(result.RouteValues.ContainsValue("InvalidRequest"));
 		}
 
 		[TestMethod]
-		public void Edit_Valid_Name_Album()
+		public void Edit_Valid_Album()
 		{
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
-			dataStore.GenerateAndAddGenre(1);
+			dataStore.GenerateAndAddGenre(1, "Nhe nhang");
 			dataStore.GenerateAndAddArtist(10);
-			Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
+			// Generate a new album before updating
+			Album test = dataStore.GenerateAndAddAlbum(100, 10, 1, 19.99M);
 			StoreManagerController controller = ControllerFactory.GetWiredUpController<StoreManagerController>((s) => new StoreManagerController(s), store: dataStore);
-			RedirectToRouteResult result = controller.Edit(album) as RedirectToRouteResult;
+			test.Title = "Tình khúc vượt thời gian";
+			test.Price = 10M;
+			RedirectToRouteResult result = controller.Edit(test) as RedirectToRouteResult;
 			Assert.IsTrue(result.RouteValues.ContainsValue("Index"));
 		}
 
@@ -99,22 +102,25 @@ namespace MVSMusicStore.Test
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
 			dataStore.GenerateAndAddGenre(1);
 			dataStore.GenerateAndAddArtist(10);
-			Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = -8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
+			Album test = dataStore.GenerateAndAddAlbum(100, 10, 1, 19.99M);
 			StoreManagerController controller = ControllerFactory.GetWiredUpController<StoreManagerController>((s) => new StoreManagerController(s), store: dataStore);
-			RedirectToRouteResult result = controller.Edit(album) as RedirectToRouteResult;
+			test.Title = "Tình khúc vượt thời gian";
+			test.Price = -10M;
+			RedirectToRouteResult result = controller.Edit(test) as RedirectToRouteResult;
 			Assert.IsTrue(result.RouteValues.ContainsValue("InvalidRequest"));
 		}
 
 		[TestMethod]
-		public void Edit_Valid_Price_Album()
+		public void Edit_Miss_Required_Album()
 		{
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
 			dataStore.GenerateAndAddGenre(1);
 			dataStore.GenerateAndAddArtist(10);
-			Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 10M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
+			Album test = dataStore.GenerateAndAddAlbum(100, 10, 1, 19.99M);
 			StoreManagerController controller = ControllerFactory.GetWiredUpController<StoreManagerController>((s) => new StoreManagerController(s), store: dataStore);
-			RedirectToRouteResult result = controller.Edit(album) as RedirectToRouteResult;
-			Assert.IsTrue(result.RouteValues.ContainsValue("Index"));
+			test.Title = null;
+			RedirectToRouteResult result = controller.Edit(test) as RedirectToRouteResult;
+			Assert.IsTrue(result.RouteValues.ContainsValue("InvalidRequest"));
 		}
 	}
 }

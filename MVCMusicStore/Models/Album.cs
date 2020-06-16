@@ -8,9 +8,9 @@ namespace MVCMusicStore.Models
 	/// <summary>
 	/// Album nhạc
 	/// </summary>
-	[Bind(Exclude = "AlbumId")]
 	public class Album
 	{
+		[Key]
 		[ScaffoldColumn(false)]
 		public int AlbumId { get; set; }
 		[DisplayName("Genre")]
@@ -21,8 +21,7 @@ namespace MVCMusicStore.Models
 		[StringLength(160)]
 		public string Title { get; set; }
 		[Required(ErrorMessage = "Price is required")]
-		[Range(0.01, 100.00,
-		ErrorMessage = "Price must be between 0.01 and 100.00")]
+		[Range(0, 100, ErrorMessage = "Price must be between 0.01 and 100.00")]
 		public decimal Price { get; set; }
 		[DisplayName("Album Art URL")]
 		[StringLength(1024)]
@@ -30,5 +29,10 @@ namespace MVCMusicStore.Models
 		public virtual Genre Genre { get; set; }
 		public virtual Artist Artist { get; set; }
 		public virtual List<OrderDetail> OrderDetails { get; set; }
+
+		public Album()
+		{
+
+		}
 	}
 }
