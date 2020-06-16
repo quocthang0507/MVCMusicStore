@@ -24,6 +24,15 @@ namespace MVSMusicStore.Test
 			Assert.AreEqual("/Checkout/", result.Url);
 		}
 
+		[TestMethod]
+		public void LogOn_Invalid_Login()
+		{
+			AccountController controller = GetWiredUpAccountController();
+			LogOnModel inputModel = new LogOnModel() { UserName = "admin", Password = "password", RememberMe = false };
+			var result = controller.LogOn(inputModel, "/Checkout/") as RedirectResult;
+			Assert.IsNull(result);
+		}
+
 		private AccountController GetWiredUpAccountController(IMembershipService membershipSvc = null, IAuthenticationService authSvc = null, FakeDataStore store = null)
 		{
 			membershipSvc = membershipSvc ?? MockRepository.GenerateMock<IMembershipService>();
