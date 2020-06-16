@@ -54,7 +54,7 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (album.Title.Trim() != "" && album.Price >= 0)
+				if (album.Title != null && album.Title.Trim() != "" && album.Price >= 0)
 				{
 					StoreDB.Albums.Add(album);
 					StoreDB.SaveChanges();
@@ -68,13 +68,11 @@ namespace MVCMusicStore.Controllers
 		}
 
 		// GET: StoreManager/Edit/5
-		public ActionResult Edit(int? id)
+		public ActionResult Edit(int id)
 		{
-			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			Album album = StoreDB.Albums.Find(id);
 			if (album == null)
-				return HttpNotFound();
+				return RedirectToAction("InvalidRequest", "Error");
 			ViewBag.ArtistId = new SelectList(StoreDB.Artists, "ArtistId", "Name", album.ArtistId);
 			ViewBag.GenreId = new SelectList(StoreDB.Genres, "GenreId", "Name", album.GenreId);
 			return View(album);
@@ -89,8 +87,11 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (album.Title.Trim() != "" && album.Price >= 0)
+				if (album.Title != null && album.Title.Trim() != "" && album.Price >= 0)
 				{
+					Album t = StoreDB.Albums.Find(album.AlbumId);
+					if (t == null)
+						return RedirectToAction("InvalidRequest", "Error");
 					StoreDB.SetModified(album);
 					StoreDB.SaveChanges();
 					return RedirectToAction("Index");

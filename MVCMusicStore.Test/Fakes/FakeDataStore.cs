@@ -1,5 +1,6 @@
 ﻿using MVCMusicStore.Models;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,12 +15,12 @@ namespace MVCMusicStore.Test.Fakes
 		private List<object> _modifieds = new List<object>();
 		private List<object> _saveds = new List<object>();
 
-		public System.Data.Entity.IDbSet<Album> Albums { get; set; }
-		public System.Data.Entity.IDbSet<Genre> Genres { get; set; }
-		public System.Data.Entity.IDbSet<Artist> Artists { get; set; }
-		public System.Data.Entity.IDbSet<Cart> Carts { get; set; }
-		public System.Data.Entity.IDbSet<Order> Orders { get; set; }
-		public System.Data.Entity.IDbSet<OrderDetail> OrderDetails { get; set; }
+		public IDbSet<Album> Albums { get; set; }
+		public IDbSet<Genre> Genres { get; set; }
+		public IDbSet<Artist> Artists { get; set; }
+		public IDbSet<Cart> Carts { get; set; }
+		public IDbSet<Order> Orders { get; set; }
+		public IDbSet<OrderDetail> OrderDetails { get; set; }
 
 		public virtual int SaveChanges()
 		{
@@ -96,7 +97,7 @@ namespace MVCMusicStore.Test.Fakes
 
 		public Task<int> SaveChangesAsync()
 		{
-			return Task.Factory.StartNew<int>(() => SaveChanges());
+			return Task.Factory.StartNew(() => SaveChanges());
 		}
 	}
 }

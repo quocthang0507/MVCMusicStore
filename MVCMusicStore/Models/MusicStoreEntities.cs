@@ -24,7 +24,7 @@ namespace MVCMusicStore.Models
 
 		public Task<int> SaveChangesAsync()
 		{
-			return Task.Factory.StartNew<int>(() => SaveChanges());
+			return Task.Factory.StartNew(() => SaveChanges());
 		}
 	}
 }

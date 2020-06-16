@@ -46,20 +46,24 @@ namespace MVCMusicStore.Controllers
 
 		//
 		// AJAX: /ShoppingCart/RemoveFromCart/5
+		/// <summary>
+		/// Loại bỏ khỏi giỏ hàng bằng số id trong giỏ (không phải id album)
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpPost]
 		public ActionResult RemoveFromCart(int id)
 		{
 			// Get the current shopping cart
 			var cart = ShoppingCart.GetCart(this.HttpContext, StoreDB);
 			// Get the name of the album to display confirmation
-			//string albumName = StoreDB.Carts.Single(item => item.RecordId == id).Album.Title;
+			string albumName = StoreDB.Carts.Single(item => item.RecordId == id).Album.Title;
 			// Remove from cart
 			int itemCount = cart.RemoveFromCart(id);
 			// Display the confirmation message
 			var results = new ShoppingCartRemoveViewModel
 			{
-				//Message = Server.HtmlEncode(albumName) + " đã được gỡ bỏ thành công ra khỏi giỏ hàng của bạn",
-				Message = Server.HtmlEncode("Helo"),
+				Message = Server.HtmlEncode(albumName) + " đã được gỡ bỏ thành công ra khỏi giỏ hàng của bạn",
 				CartTotal = cart.GetTotal(),
 				CartCount = cart.GetCount(),
 				ItemCount = itemCount,

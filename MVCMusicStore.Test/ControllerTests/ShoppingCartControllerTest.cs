@@ -20,8 +20,6 @@ namespace MVSMusicStore.Test.ControllerTests
 			dataStore.GenerateAndAddArtist(10);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10M);
 			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
-			//Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
-			//controller.AddToCart(1, 5);
 			RedirectToRouteResult result = controller.AddToCart(3, 5) as RedirectToRouteResult;
 			Assert.IsTrue(result.RouteValues.ContainsValue("Index"));
 		}
@@ -34,8 +32,6 @@ namespace MVSMusicStore.Test.ControllerTests
 			dataStore.GenerateAndAddArtist(10);
 			dataStore.GenerateAndAddAlbum(2, 1, 1, 10M);
 			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
-			//Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
-			//controller.AddToCart(1, 5);
 			RedirectToRouteResult result = controller.AddToCart(2, -5) as RedirectToRouteResult;
 			Assert.IsTrue(result.RouteValues.ContainsValue("InvalidRequest"));
 		}
@@ -48,7 +44,6 @@ namespace MVSMusicStore.Test.ControllerTests
 			dataStore.GenerateAndAddArtist(10);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10M);
 			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
-			//Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
 			controller.AddToCart(3, 5);
 			RedirectToRouteResult result = controller.AddToCart(3, 5) as RedirectToRouteResult;
 			controller.CartSummary();
@@ -64,9 +59,8 @@ namespace MVSMusicStore.Test.ControllerTests
 			dataStore.GenerateAndAddArtist(10);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10);
 			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
-			//Album album = new Album { Title = "Tình khúc vượt thời gian", Genre = new Genre { Name = "Rock" }, Price = 8.99M, Artist = new Artist { Name = "Men At Work" }, AlbumArtUrl = "/Content/Images/placeholder.gif" };
 			controller.AddToCart(3, 5);
-			RedirectToRouteResult result = controller.RemoveFromCart(3) as RedirectToRouteResult;
+			RedirectToRouteResult result = controller.RemoveFromCart(0) as RedirectToRouteResult;
 			controller.CartSummary();
 			var cartCount = controller.ViewData["CartCount"].ToString();
 			Assert.IsTrue(cartCount == "4");
