@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace MVSMusicStore.Test
 {
+	////////////////////////////TRẦN TRỌNG HIỆP//////////////////////////////
 	/// <summary>
 	/// Kiểm tra chức năng đăng nhập
 	/// </summary>

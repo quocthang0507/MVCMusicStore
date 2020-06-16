@@ -5,6 +5,7 @@ using System.Web.Mvc;
 
 namespace MVSMusicStore.Test.ControllerTests
 {
+	///////////////////////NGUYỄN THÀNH QUỐC////////////////////////////
 	/// <summary>
 	/// Kiểm tra chức năng giỏ hàng
 	/// </summary>
