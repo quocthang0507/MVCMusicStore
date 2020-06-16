@@ -54,9 +54,13 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				StoreDB.Albums.Add(album);
-				StoreDB.SaveChanges();
-				return RedirectToAction("Index");
+				if (album.Title.Trim() != "" && album.Price >= 0)
+				{
+					StoreDB.Albums.Add(album);
+					StoreDB.SaveChanges();
+					return RedirectToAction("Index");
+				}
+				return RedirectToAction("InvalidRequest", "Error");
 			}
 			ViewBag.ArtistId = new SelectList(StoreDB.Artists, "ArtistId", "Name", album.ArtistId);
 			ViewBag.GenreId = new SelectList(StoreDB.Genres, "GenreId", "Name", album.GenreId);
@@ -85,9 +89,13 @@ namespace MVCMusicStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				StoreDB.SetModified(album);
-				StoreDB.SaveChanges();
-				return RedirectToAction("Index");
+				if (album.Title.Trim() != "" && album.Price >= 0)
+				{
+					StoreDB.SetModified(album);
+					StoreDB.SaveChanges();
+					return RedirectToAction("Index");
+				}
+				return RedirectToAction("InvalidRequest", "Error");
 			}
 			ViewBag.ArtistId = new SelectList(StoreDB.Artists, "ArtistId", "Name", album.ArtistId);
 			ViewBag.GenreId = new SelectList(StoreDB.Genres, "GenreId", "Name", album.GenreId);
