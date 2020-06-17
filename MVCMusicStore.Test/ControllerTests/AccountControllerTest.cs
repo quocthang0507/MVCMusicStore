@@ -32,7 +32,22 @@ namespace MVSMusicStore.Test
 			var result = controller.LogOn(inputModel, "/Checkout/") as RedirectResult;
 			Assert.IsNull(result);
 		}
-
+		[TestMethod]
+		public void LogOn_Invalid_SpecicalCharater()
+		{
+			AccountController controller = GetWiredUpAccountController();
+			LogOnModel inputModel = new LogOnModel() { UserName = "a@d+min", Password = "P@55w0rd", RememberMe = false };
+			var result = controller.LogOn(inputModel, "/Checkout/") as RedirectResult;
+			Assert.IsNull(result);
+		}
+		[TestMethod]
+		public void LogOn_Invalid_SqlInjection()
+		{
+			AccountController controller = GetWiredUpAccountController();
+			LogOnModel inputModel = new LogOnModel() { UserName = "admin' OR 1 = 1 --", Password = "123456", RememberMe = false };
+			var result = controller.LogOn(inputModel, "/Checkout/") as RedirectResult;
+			Assert.IsNull(result);
+		}
 		private AccountController GetWiredUpAccountController(IMembershipService membershipSvc = null, IAuthenticationService authSvc = null, FakeDataStore store = null)
 		{
 			membershipSvc = membershipSvc ?? MockRepository.GenerateMock<IMembershipService>();
