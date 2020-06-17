@@ -19,7 +19,7 @@ namespace MVSMusicStore.Test.ControllerTests
 			dataStore.GenerateAndAddGenre(1);
 			dataStore.GenerateAndAddArtist(1);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10M);
-			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
+			ShoppingCartController controller = ControllerFactory.GetWiredUpController((s) => new ShoppingCartController(s), store: dataStore);
 			RedirectToRouteResult result = controller.AddToCart(3, 5) as RedirectToRouteResult;
 			Assert.IsTrue(result.RouteValues.ContainsValue("Index"));
 		}
@@ -31,7 +31,7 @@ namespace MVSMusicStore.Test.ControllerTests
 			dataStore.GenerateAndAddGenre(1);
 			dataStore.GenerateAndAddArtist(1);
 			dataStore.GenerateAndAddAlbum(2, 1, 1, 10M);
-			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
+			ShoppingCartController controller = ControllerFactory.GetWiredUpController((s) => new ShoppingCartController(s), store: dataStore);
 			RedirectToRouteResult result = controller.AddToCart(2, -5) as RedirectToRouteResult;
 			Assert.IsTrue(result.RouteValues.ContainsValue("InvalidRequest"));
 		}
@@ -43,7 +43,7 @@ namespace MVSMusicStore.Test.ControllerTests
 			dataStore.GenerateAndAddGenre(1);
 			dataStore.GenerateAndAddArtist(1);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10M);
-			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
+			ShoppingCartController controller = ControllerFactory.GetWiredUpController((s) => new ShoppingCartController(s), store: dataStore);
 			controller.AddToCart(3, 5);
 			RedirectToRouteResult result = controller.AddToCart(3, 5) as RedirectToRouteResult;
 			controller.CartSummary();
@@ -58,7 +58,7 @@ namespace MVSMusicStore.Test.ControllerTests
 			dataStore.GenerateAndAddGenre(1);
 			dataStore.GenerateAndAddArtist(1);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10);
-			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
+			ShoppingCartController controller = ControllerFactory.GetWiredUpController((s) => new ShoppingCartController(s), store: dataStore);
 			controller.AddToCart(3, 5);
 			RedirectToRouteResult result = controller.RemoveFromCart(0) as RedirectToRouteResult;
 			controller.CartSummary();
