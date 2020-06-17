@@ -17,7 +17,7 @@ namespace MVSMusicStore.Test.ControllerTests
 		{
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
 			dataStore.GenerateAndAddGenre(1);
-			dataStore.GenerateAndAddArtist(10);
+			dataStore.GenerateAndAddArtist(1);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10M);
 			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
 			RedirectToRouteResult result = controller.AddToCart(3, 5) as RedirectToRouteResult;
@@ -29,7 +29,7 @@ namespace MVSMusicStore.Test.ControllerTests
 		{
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
 			dataStore.GenerateAndAddGenre(1);
-			dataStore.GenerateAndAddArtist(10);
+			dataStore.GenerateAndAddArtist(1);
 			dataStore.GenerateAndAddAlbum(2, 1, 1, 10M);
 			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
 			RedirectToRouteResult result = controller.AddToCart(2, -5) as RedirectToRouteResult;
@@ -41,7 +41,7 @@ namespace MVSMusicStore.Test.ControllerTests
 		{
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
 			dataStore.GenerateAndAddGenre(1);
-			dataStore.GenerateAndAddArtist(10);
+			dataStore.GenerateAndAddArtist(1);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10M);
 			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
 			controller.AddToCart(3, 5);
@@ -56,7 +56,7 @@ namespace MVSMusicStore.Test.ControllerTests
 		{
 			FakeDataStore dataStore = MusicStoreEntitiesFactory.GetEmpty();
 			dataStore.GenerateAndAddGenre(1);
-			dataStore.GenerateAndAddArtist(10);
+			dataStore.GenerateAndAddArtist(1);
 			dataStore.GenerateAndAddAlbum(3, 1, 1, 10);
 			ShoppingCartController controller = ControllerFactory.GetWiredUpController<ShoppingCartController>((s) => new ShoppingCartController(s), store: dataStore);
 			controller.AddToCart(3, 5);
