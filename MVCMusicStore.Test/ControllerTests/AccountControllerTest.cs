@@ -54,7 +54,7 @@ namespace MVSMusicStore.Test
 		private AccountController GetWiredUpAccountController(IMembershipService membershipSvc = null, IAuthenticationService authSvc = null, FakeDataStore store = null)
 		{
 			membershipSvc = membershipSvc ?? MockRepository.GenerateMock<IMembershipService>();
-			membershipSvc.Stub(a => a.ValidateUser(Arg.Is("admin"), Arg.Is("P@55w0rd"))).Return(true); // Khoi tao thong tin dang nhap tu truoc
+			membershipSvc.Stub(a => a.ValidateUser("admin", "P@55w0rd")).Return(true); // Khoi tao thong tin dang nhap tu truoc
 			authSvc = authSvc ?? MockRepository.GenerateStub<IAuthenticationService>();
 			return ControllerFactory.GetWiredUpController<AccountController>(s => new AccountController(s, authSvc, membershipSvc), store: store);
 		}
